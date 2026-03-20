@@ -75,7 +75,7 @@ class Apple(GameObject):
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
             )
-               if self.position not in occupied_slots:
+            if self.position not in occupied_slots:
                 break
 
 
