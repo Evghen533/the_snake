@@ -71,7 +71,8 @@ class Apple(GameObject):
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         """Генерация случайной позиции, не занятой змейкой."""
         while True:
-            self.position = (
+            self.position = 
+            (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
             )
