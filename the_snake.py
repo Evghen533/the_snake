@@ -78,6 +78,7 @@ class Apple(GameObject):
         while True:
             rx = random.randint(0, GRID_WIDTH - 1)
             ry = random.randint(0, GRID_HEIGHT - 1)
+            # Теперь эта строка точно короче 79 символов:
             self.position = (rx * GRID_SIZE, ry * GRID_SIZE)
             if self.position not in occupied_slots:
                 break
