@@ -80,6 +80,7 @@ class Apple(GameObject):
 
 
 
+
 class Snake(GameObject):
     """Класс змейки."""
 
