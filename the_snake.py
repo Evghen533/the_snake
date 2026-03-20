@@ -59,22 +59,17 @@ class GameObject:
 class Apple(GameObject):
     """Класс яблока."""
 
-    def __init__(self, occupied_slots: Optional[List[Tuple[int, int]]] = None) -> None:
+    def __init__(
+        self,
+        occupied_slots: Optional[List[Tuple[int, int]]] = None
+    ) -> None:
         """Инициализация яблока."""
         super().__init__(body_color=APPLE_COLOR)
-        # Разбиваем длинную строку на две:
-        self.randomize_position(
-            occupied_slots or []
-        )
-
-    def draw(self) -> None:
-        """Отрисовка яблока."""
-        self.draw_cell(self.position)
+        self.randomize_position(occupied_slots or [])
 
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         """Генерация случайной позиции, не занятой змейкой."""
         while True:
-            # Разбиваем длинный кортеж:
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
