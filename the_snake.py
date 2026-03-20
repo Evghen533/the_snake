@@ -79,6 +79,7 @@ class Apple(GameObject):
                 break
 
 
+
 class Snake(GameObject):
     """Класс змейки."""
 
