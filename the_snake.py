@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple
 
 import pygame
 
+# Константы
 SCREEN_WIDTH: int = 640
 SCREEN_HEIGHT: int = 480
 GRID_SIZE: int = 20
@@ -91,7 +92,7 @@ class Snake(GameObject):
         self.reset()
 
     def get_head_position(self) -> Tuple[int, int]:
-        """Координаты головы."""
+        """Координаты головы (первый элемент списка)."""
         return self.positions[0]
 
     def update_direction(self) -> None:
@@ -114,6 +115,7 @@ class Snake(GameObject):
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
+            # Чтобы хвост не затирался, когда мы растем
             self.last = None
         return True
 
