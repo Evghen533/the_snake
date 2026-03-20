@@ -68,6 +68,10 @@ class Apple(GameObject):
         super().__init__(body_color=APPLE_COLOR)
         self.randomize_position(occupied_slots or [])
 
+    def draw(self) -> None:
+        """Отрисовка яблока."""
+        self.draw_cell(self.position)
+
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         """Генерация случайной позиции, не занятой змейкой."""
         while True:
