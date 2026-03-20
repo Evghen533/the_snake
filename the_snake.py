@@ -71,13 +71,11 @@ class Apple(GameObject):
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         """Генерация случайной позиции, не занятой змейкой."""
         while True:
-            self.position = (
-                random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
-            )
+            x = random.randint(0, GRID_WIDTH - 1) * GRID_SIZE
+            y = random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+            self.position = (x, y)
             if self.position not in occupied_slots:
                 break
-
 
 
 class Snake(GameObject):
