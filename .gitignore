@@ -1,3 +1,6 @@
 .vscode/
 __pycache__/
 venv/
+game.py
+pygame_test.py
+gameparts/
