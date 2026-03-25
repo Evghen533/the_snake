@@ -112,13 +112,10 @@ class Snake(GameObject):
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
-        if new_pos in self.positions:
-            return False
         self.positions.insert(0, new_pos)
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
-            # Чтобы хвост не затирался, когда мы растем
             self.last = None
         return True
 
@@ -166,10 +163,13 @@ def main() -> None:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
-        if not snake.move():
+        # Проверка столкновения в main
+        if next_pos in snake.positions:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
+        else:
+            snake.move()
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
