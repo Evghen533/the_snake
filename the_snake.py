@@ -37,22 +37,18 @@ class GameObject:
         position: Tuple[int, int] = (0, 0),
         body_color: Optional[Tuple[int, int, int]] = None
     ) -> None:
-        """Инициализация базовых атрибутов объекта."""
         self.position: Tuple[int, int] = position
         self.body_color: Optional[Tuple[int, int, int]] = body_color
 
     def draw(self) -> None:
         """Абстрактный метод для отрисовки."""
-        raise NotImplementedError(
-            'Метод draw() должен быть переопределен в дочернем классе'
-        )
+        raise NotImplementedError
 
     def draw_cell(
         self,
         position: Tuple[int, int],
         color: Optional[Tuple[int, int, int]] = None
     ) -> None:
-        """Общий метод для отрисовки одной ячейки."""
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, color or self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -61,72 +57,31 @@ class GameObject:
 class Apple(GameObject):
     """Класс яблока."""
 
-    def __init__(
-        self,
-        occupied_slots: Optional[List[Tuple[int, int]]] = None
-    ) -> None:
-        """Инициализация яблока."""
+    def __init__(self, occupied_slots: List[Tuple[int, int]] = None) -> None:
         super().__init__(body_color=APPLE_COLOR)
         self.randomize_position(occupied_slots or [])
 
-    def draw(self) -> None:
-        """Отрисовка яблока."""
-        self.draw_cell(self.position)
-
-    def randomize_position(
-        self, occupied_slots: List[Tuple[int, int]]
-    ) -> None:
-        """Генерация случайной позиции, не занятой змейкой."""
+    def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         while True:
-            rx = random.randint(0, GRID_WIDTH - 1)
-            ry = random.randint(0, GRID_HEIGHT - 1)
-            new_pos = (rx * GRID_SIZE, ry * GRID_SIZE)
-            if new_pos not in occupied_slots:
-                self.position = new_pos
+            self.position = (
+                random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+            )
+            if self.position not in occupied_slots:
                 break
+
+    def draw(self) -> None:
+        self.draw_cell(self.position)
 
 
 class Snake(GameObject):
     """Класс змейки."""
 
     def __init__(self) -> None:
-        """Инициализация змейки через reset."""
         super().__init__(body_color=SNAKE_COLOR)
         self.reset()
 
-    def get_head_position(self) -> Tuple[int, int]:
-        """Координаты головы (первый элемент списка)."""
-        return self.positions[0]
-
-    def update_direction(self) -> None:
-        """Обновление направления."""
-        if self.next_direction:
-            self.direction = self.next_direction
-            self.next_direction = None
-
-    def move(self) -> None:
-        """Логика движения. Только перемещение."""
-        head_x, head_y = self.get_head_position()
-        dx, dy = self.direction
-        new_pos: Tuple[int, int] = (
-            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
-            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
-        )
-        self.positions.insert(0, new_pos)
-        if len(self.positions) > self.length:
-            self.last = self.positions.pop()
-        else:
-            self.last = None
-
-    def draw(self) -> None:
-        """Отрисовка змейки."""
-        for position in self.positions:
-            self.draw_cell(position)
-        if self.last:
-            self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
-
     def reset(self) -> None:
-        """Сброс змейки в начальное состояние."""
         self.length: int = 1
         self.positions: List[Tuple[int, int]] = [
             (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -135,9 +90,39 @@ class Snake(GameObject):
         self.next_direction: Optional[Tuple[int, int]] = None
         self.last: Optional[Tuple[int, int]] = None
 
+    def get_head_position(self) -> Tuple[int, int]:
+        return self.positions[0]
+
+    def update_direction(self) -> None:
+        if self.next_direction:
+            self.direction = self.next_direction
+            self.next_direction = None
+
+    def move(self) -> bool:
+        """Движение змейки. Возвращает False при столкновении."""
+        head_x, head_y = self.get_head_position()
+        dx, dy = self.direction
+        new_pos = (
+            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
+            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
+        )
+        if new_pos in self.positions:
+            return False
+        self.positions.insert(0, new_pos)
+        if len(self.positions) > self.length:
+            self.last = self.positions.pop()
+        else:
+            self.last = None
+        return True
+
+    def draw(self) -> None:
+        for position in self.positions:
+            self.draw_cell(position)
+        if self.last:
+            self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
+
 
 def handle_keys(game_object: Snake) -> None:
-    """Обработка клавиш."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -154,7 +139,6 @@ def handle_keys(game_object: Snake) -> None:
 
 
 def main() -> None:
-    """Главный цикл."""
     pygame.init()
     snake = Snake()
     apple = Apple(snake.positions)
@@ -162,27 +146,13 @@ def main() -> None:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
-
-        # РАССЧИТЫВАЕМ СЛЕДУЮЩУЮ ПОЗИЦИЮ ДЛЯ ПРОВЕРКИ
-        head_x, head_y = snake.get_head_position()
-        dx, dy = snake.direction
-        next_pos = (
-            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
-            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
-        )
-
-        # ПРОВЕРКА СТОЛКНОВЕНИЯ
-        if next_pos in snake.positions:
+        if not snake.move():
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
-        else:
-            snake.move()
-
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
-
         snake.draw()
         apple.draw()
         pygame.display.update()
