@@ -104,22 +104,19 @@ class Snake(GameObject):
             self.direction = self.next_direction
             self.next_direction = None
 
-    def move(self) -> bool:
-        """Логика движения. Возвращает False при столкновении."""
+    def move(self) -> None:
+        """Логика движения. Только перемещение без проверок."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos: Tuple[int, int] = (
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
-        if new_pos in self.positions:
-            return False
         self.positions.insert(0, new_pos)
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
             self.last = None
-        return True
 
     def draw(self) -> None:
         """Отрисовка змейки."""
@@ -165,13 +162,28 @@ def main() -> None:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
-        if not snake.move():
+
+        # Рассчитываем следующую позицию один раз здесь
+        head_x, head_y = snake.get_head_position()
+        dx, dy = snake.direction
+        next_pos = (
+            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
+            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
+        )
+
+        # ПРОВЕРКА СТОЛКНОВЕНИЯ ПЕРЕД ДВИЖЕНИЕМ
+        if next_pos in snake.positions:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
+        else:
+            snake.move()
+
+        # Проверка поедания яблока
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
+
         snake.draw()
         apple.draw()
         pygame.display.update()
