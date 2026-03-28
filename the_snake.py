@@ -112,7 +112,9 @@ class Snake(GameObject):
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
+        # Просто добавляем новую голову
         self.positions.insert(0, new_pos)
+        # И удаляем хвост
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
@@ -163,7 +165,7 @@ def main() -> None:
         handle_keys(snake)
         snake.update_direction()
 
-        # Рассчитываем следующую позицию один раз здесь
+        # Рассчитываем следующую позицию для проверки
         head_x, head_y = snake.get_head_position()
         dx, dy = snake.direction
         next_pos = (
