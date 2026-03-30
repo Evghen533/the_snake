@@ -112,9 +112,7 @@ class Snake(GameObject):
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
-        # Просто добавляем новую голову
         self.positions.insert(0, new_pos)
-        # И удаляем хвост
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
@@ -164,22 +162,15 @@ def main() -> None:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
+        
+        # Двигаем змейку ВСЕГДА
+        snake.move()
 
-        # Рассчитываем следующую позицию для проверки
-        head_x, head_y = snake.get_head_position()
-        dx, dy = snake.direction
-        next_pos = (
-            (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
-            (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
-        )
-
-        # ПРОВЕРКА СТОЛКНОВЕНИЯ ПЕРЕД ДВИЖЕНИЕМ
-        if next_pos in snake.positions:
+        # ПРОВЕРКА СТОЛКНОВЕНИЯ (Голова в остальном теле)
+        if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
-        else:
-            snake.move()
 
         # Проверка поедания яблока
         if snake.get_head_position() == apple.position:
