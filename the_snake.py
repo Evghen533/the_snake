@@ -154,6 +154,7 @@ def handle_keys(game_object: Snake) -> None:
 
 
 def main() -> None:
+
     """Главный цикл игры."""
     pygame.init()
     snake = Snake()
@@ -162,7 +163,6 @@ def main() -> None:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
-        
         # Двигаем змейку ВСЕГДА
         snake.move()
 
