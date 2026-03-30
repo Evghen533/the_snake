@@ -154,7 +154,6 @@ def handle_keys(game_object: Snake) -> None:
 
 
 def main() -> None:
-
     """Главный цикл игры."""
     pygame.init()
     snake = Snake()
