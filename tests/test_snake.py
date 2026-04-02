@@ -1,11 +1,6 @@
 import sys
-from pathlib import Path
-
-# Добавляем корневую директорию в пути поиска модулей
-sys.path.append(str(Path(__file__).parent.parent))
-
+import os
 from the_snake import Snake
-
 
 def test_snake_initial_length():
     """Тест начальной длины змейки."""
