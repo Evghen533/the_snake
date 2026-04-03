@@ -35,21 +35,16 @@ class GameObject:
         self.position: Tuple[int, int] = position
         self.body_color: Optional[Tuple[int, int, int]] = body_color
 
-    def draw(self) -> None:
-        """Абстрактный метод для отрисовки."""
-        raise NotImplementedError(
-            'Метод draw() должен быть переопределен в дочернем классе'
-        )
-
     def draw_cell(
         self,
         position: Tuple[int, int],
         color: Optional[Tuple[int, int, int]] = None
     ) -> None:
         """Общий метод для отрисовки одной ячейки."""
-        # Получаем экран прямо в момент отрисовки
         surface = pygame.display.get_surface()
+        
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
+        # ЗАМЕНИ screen на surface ТУТ:
         pygame.draw.rect(surface, color or self.body_color, rect)
         pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
@@ -152,11 +147,10 @@ def handle_keys(game_object: Snake) -> None:
 def main() -> None:
     """Главный цикл игры."""
     pygame.init()
-    # Инициализация экрана и часов ВНУТРИ main
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('Змейка')
     clock = pygame.time.Clock()
-
+    
     snake = Snake()
     apple = Apple(snake.positions)
 
