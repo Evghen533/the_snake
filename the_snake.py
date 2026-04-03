@@ -152,13 +152,13 @@ def handle_keys(game_object: Snake) -> None:
 def main() -> None:
     """Главный цикл игры."""
     pygame.init()
-    
+
     global screen, clock
-    
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('Змейка')
     clock = pygame.time.Clock()
-    
+
     snake = Snake()
     apple = Apple(snake.positions)
 
