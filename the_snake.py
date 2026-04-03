@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 
 import pygame
 
-# Константы
+# Константы (оставь их наверху, это нормально)
 SCREEN_WIDTH: int = 640
 SCREEN_HEIGHT: int = 480
 GRID_SIZE: int = 20
@@ -21,12 +21,6 @@ BORDER_COLOR: Tuple[int, int, int] = (93, 216, 228)
 APPLE_COLOR: Tuple[int, int, int] = (255, 0, 0)
 SNAKE_COLOR: Tuple[int, int, int] = (0, 255, 0)
 SPEED: int = 10
-
-screen: pygame.Surface = pygame.display.set_mode(
-    (SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32
-)
-pygame.display.set_caption('Змейка')
-clock: pygame.time.Clock = pygame.time.Clock()
 
 
 class GameObject:
@@ -53,9 +47,11 @@ class GameObject:
         color: Optional[Tuple[int, int, int]] = None
     ) -> None:
         """Общий метод для отрисовки одной ячейки."""
+        # Получаем экран прямо в момент отрисовки
+        surface = pygame.display.get_surface()
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, color or self.body_color, rect)
-        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+        pygame.draw.rect(surface, color or self.body_color, rect)
+        pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
 
 class Apple(GameObject):
@@ -105,7 +101,7 @@ class Snake(GameObject):
             self.next_direction = None
 
     def move(self) -> None:
-        """Логика движения. Только перемещение без проверок."""
+        """Логика движения."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos: Tuple[int, int] = (
@@ -126,7 +122,7 @@ class Snake(GameObject):
             self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
 
     def reset(self) -> None:
-        """Сброс змейки в начальное состояние."""
+        """Сброс змейки."""
         self.length: int = 1
         self.positions: List[Tuple[int, int]] = [
             (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -156,22 +152,25 @@ def handle_keys(game_object: Snake) -> None:
 def main() -> None:
     """Главный цикл игры."""
     pygame.init()
+    # Инициализация экрана и часов ВНУТРИ main
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    pygame.display.set_caption('Змейка')
+    clock = pygame.time.Clock()
+
     snake = Snake()
     apple = Apple(snake.positions)
+
     while True:
         clock.tick(SPEED)
         handle_keys(snake)
         snake.update_direction()
-        # Двигаем змейку ВСЕГДА
         snake.move()
 
-        # ПРОВЕРКА СТОЛКНОВЕНИЯ (Голова в остальном теле)
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
 
-        # Проверка поедания яблока
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
