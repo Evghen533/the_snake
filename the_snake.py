@@ -35,6 +35,10 @@ class GameObject:
         self.position: Tuple[int, int] = position
         self.body_color: Optional[Tuple[int, int, int]] = body_color
 
+    def draw(self) -> None:
+        """Абстрактный метод для отрисовки."""
+        pass  # Просто добавь это, чтобы метод существовал
+
     def draw_cell(
         self,
         position: Tuple[int, int],
@@ -42,9 +46,7 @@ class GameObject:
     ) -> None:
         """Общий метод для отрисовки одной ячейки."""
         surface = pygame.display.get_surface()
-        
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-        # ЗАМЕНИ screen на surface ТУТ:
         pygame.draw.rect(surface, color or self.body_color, rect)
         pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
