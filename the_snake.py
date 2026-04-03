@@ -152,7 +152,7 @@ def main() -> None:
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('Змейка')
     clock = pygame.time.Clock()
-    
+
     snake = Snake()
     apple = Apple(snake.positions)
 
