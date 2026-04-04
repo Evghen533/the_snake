@@ -75,10 +75,9 @@ class Apple(GameObject):
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
         """Генерация случайной позиции яблока."""
         while True:
-            new_pos = (
-                random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
-            )
+            rx = random.randint(0, GRID_WIDTH - 1)
+            ry = random.randint(0, GRID_HEIGHT - 1)
+            new_pos = (rx * GRID_SIZE, ry * GRID_SIZE)
             if new_pos not in occupied_slots:
                 self.position = new_pos
                 break
