@@ -23,9 +23,6 @@ APPLE_COLOR: Tuple[int, int, int] = (255, 0, 0)
 SNAKE_COLOR: Tuple[int, int, int] = (0, 255, 0)
 SPEED: int = 10
 
-    if os.environ.get('SDL_VIDEODRIVER') == 'dummy':
-        break
-
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 pygame.display.set_caption('Змейка')
