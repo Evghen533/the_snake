@@ -82,6 +82,7 @@ class Apple(GameObject):
                 self.position = new_pos
                 break
 
+
 class Snake(GameObject):
     """Класс змейки."""
 
