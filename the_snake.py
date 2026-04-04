@@ -37,6 +37,7 @@ class GameObject:
         position: Tuple[int, int] = (0, 0),
         body_color: Optional[Tuple[int, int, int]] = None
     ) -> None:
+        """Инициализация базовых атрибутов объекта."""
         self.position = position
         self.body_color = body_color
 
@@ -63,13 +64,16 @@ class Apple(GameObject):
         self,
         occupied_slots: Optional[List[Tuple[int, int]]] = None
     ) -> None:
+        """Инициализация яблока."""
         super().__init__(body_color=APPLE_COLOR)
         self.randomize_position(occupied_slots or [])
 
     def draw(self) -> None:
+        """Отрисовка яблока."""
         self.draw_cell(self.position)
 
     def randomize_position(self, occupied_slots: List[Tuple[int, int]]) -> None:
+        """Генерация случайной позиции яблока."""
         while True:
             new_pos = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
@@ -84,6 +88,7 @@ class Snake(GameObject):
     """Класс змейки."""
 
     def __init__(self) -> None:
+        """Инициализация змейки."""
         super().__init__(body_color=SNAKE_COLOR)
         self.reset()
 
@@ -92,11 +97,13 @@ class Snake(GameObject):
         return self.positions[0]
 
     def update_direction(self) -> None:
+        """Обновление направления движения."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self) -> None:
+        """Логика движения змейки."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos = (
@@ -110,12 +117,14 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self) -> None:
+        """Отрисовка змейки."""
         for position in self.positions:
             self.draw_cell(position)
         if self.last:
             self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
 
     def reset(self) -> None:
+        """Сброс змейки в начальное состояние."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -124,6 +133,7 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object: Snake) -> None:
+    """Обработка клавиш управления."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -164,7 +174,6 @@ def main() -> None:
         apple.draw()
         pygame.display.update()
 
-        # Выход для тестов
         if os.environ.get('SDL_VIDEODRIVER') == 'dummy':
             break
 
