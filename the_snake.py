@@ -1,7 +1,6 @@
 import os
 import random
 import sys
-from typing import List, Optional, Tuple
 
 import pygame
 
@@ -19,31 +18,30 @@ APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
 SPEED = 10
 
-# --- ИСПРАВЛЕННЫЙ БЛОК ИНИЦИАЛИЗАЦИИ ---
 pygame.init()
-# Объявляем переменные, но не вызываем set_mode сразу, если мы в тестах
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-clock = pygame.time.Clock()
 pygame.display.set_caption('Змейка')
+clock = pygame.time.Clock()
 
 
 class GameObject:
+    """Базовый класс для игровых объектов."""
+
     def __init__(self, position=(0, 0), body_color=None):
+        """Инициализация базовых атрибутов объекта."""
         self.position = position
         self.body_color = body_color
 
-
     def draw(self):
+        """Абстрактный метод для отрисовки."""
         pass
 
     def draw_cell(self, position, color=None):
         """Отрисовка ячейки."""
-        # Берем поверхность только если она есть
-        surf = pygame.display.get_surface()
-        if surf:
-            rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(surf, color or self.body_color, rect)
-            pygame.draw.rect(surf, BORDER_COLOR, rect, 1)
+        surface = pygame.display.get_surface()
+        rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(surface, color or self.body_color, rect)
+        pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
 
 class Apple(GameObject):
