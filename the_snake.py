@@ -158,7 +158,6 @@ def main():
         apple.draw()
         pygame.display.update()
 
-        # Выход для тестов
         if os.environ.get('SDL_VIDEODRIVER') == 'dummy':
             break
 
