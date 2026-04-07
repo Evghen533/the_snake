@@ -29,7 +29,8 @@ def snake(_the_snake):
 
 
 class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла."""
+    """Исключение для остановки бесконечного цикла."""
+
     pass
 
 
