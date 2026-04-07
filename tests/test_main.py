@@ -12,7 +12,7 @@ def test_main_run_without_exceptions():
         # Это нормальное поведение: мы сами прервали цикл через conftest
         pass
     except SystemExit:
-        # Это если сработал sys.exit()
+        # Это если сработал sys.exit() при закрытии окна
         pass
     except Exception as e:
         # Любая другая реальная ошибка завалит тест
