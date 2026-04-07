@@ -7,10 +7,10 @@ def test_main_run_without_exceptions():
     try:
         main()
     except Exception as e:
-        # Если это наша техническая остановка - пропускаем
+        # Если это наша техническая остановка из conftest - всё супер
         if 'StopInfiniteLoop' in str(type(e)):
             return
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
     except BaseException:
-        # Перехватываем вообще все системные сигналы к выходу
+        # Перехватываем системные выходы
         pass
