@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import StopInfiniteLoop
 from the_snake import main
 
@@ -12,7 +11,7 @@ def test_main_run_without_exceptions():
         # Это нормальное поведение: мы сами прервали цикл через conftest
         pass
     except SystemExit:
-        # Если сработал sys.exit() при закрытии окна
+        # Это если сработал sys.exit() при выходе из игры
         pass
     except Exception as e:
         # Любая другая реальная ошибка завалит тест
