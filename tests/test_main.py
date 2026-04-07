@@ -1,5 +1,4 @@
 import pytest
-
 from conftest import StopInfiniteLoop
 from the_snake import main
 
@@ -9,12 +8,11 @@ def test_main_run_without_exceptions():
     try:
         main()
     except StopInfiniteLoop:
-        # Если поймали это исключение — значит, main() дошел до отрисовки
-        # и успешно начал работать. Это и есть прохождение теста.
+        # Это нормальное поведение: мы сами прервали цикл через conftest
         pass
     except SystemExit:
-        # На случай, если сработал выход через pygame.quit()
+        # Это если сработал sys.exit()
         pass
     except Exception as e:
-        # Любая другая ошибка всё еще должна завалить тест
+        # Любая другая реальная ошибка завалит тест
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
