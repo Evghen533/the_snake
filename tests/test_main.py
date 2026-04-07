@@ -17,3 +17,4 @@ def test_main_run_without_exceptions():
     except Exception as e:
         # Любая другая реальная ошибка завалит тест
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
+
