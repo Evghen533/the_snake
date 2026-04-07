@@ -7,7 +7,7 @@ def test_main_run_without_exceptions():
     try:
         main()
     except Exception as e:
-        # Если это наша техническая остановка из conftest - всё супер
+        # Если это наша остановка StopInfiniteLoop - всё отлично, выходим
         if 'StopInfiniteLoop' in str(type(e)):
             return
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
