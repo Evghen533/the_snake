@@ -78,8 +78,8 @@ class Snake(GameObject):
         self.reset()
 
     def get_head_position(self):
-    """Возвращает позицию головы."""
-    return self.positions[0] # Оставь так, если логика move() завязана на этом
+        """Возвращает позицию головы."""
+        return self.positions[0]
 
     def update_direction(self):
         """Обновление направления движения."""
