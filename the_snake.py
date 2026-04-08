@@ -159,7 +159,7 @@ def main():
         # Выход для тестов
         if pygame.display.get_driver() == 'dummy':
             break
-                
+
 
 if __name__ == '__main__':
     main()
