@@ -119,7 +119,7 @@ def handle_keys(game_object):
     """Обработка клавиш управления."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
+            pass
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
@@ -156,9 +156,10 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except BaseException:
-            break
 
+            if pygame.display.get_driver() == 'dummy':
+                break
+                
 
 if __name__ == '__main__':
     main()
