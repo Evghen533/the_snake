@@ -156,9 +156,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (RuntimeError, NameError):
-            break
-        except BaseException:
+        pygame.display.update()
+        if pygame.display.get_surface() is None:
             break
 
 
