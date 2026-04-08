@@ -156,7 +156,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except Exception:  # noqa: PIE786
+        except (RuntimeError, Exception):
             break
 
 
