@@ -119,7 +119,6 @@ def handle_keys(game_object):
     """Обработка клавиш управления."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
@@ -162,4 +161,4 @@ def main():
 
 
 if __name__ == '__main__':
-        main()
+    main()
