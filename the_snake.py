@@ -119,7 +119,8 @@ def handle_keys(game_object):
     """Обработка клавиш управления."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            return
+            pygame.quit()
+            raise SystemExit
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
@@ -136,35 +137,30 @@ def main():
     snake = Snake()
     apple = Apple(snake.positions)
 
-    try:
-        while True:
-            clock.tick(SPEED)
-            if handle_keys(snake):
-                break  # Выход по нажатию закрытия окна
+    while True:
+        clock.tick(SPEED)
+        handle_keys(snake)
+        screen.fill(BOARD_BACKGROUND_COLOR)
+        snake.update_direction()
+        snake.move()
 
-            screen.fill(BOARD_BACKGROUND_COLOR)
-            snake.update_direction()
-            snake.move()
+        if snake.get_head_position() == apple.position:
+            snake.length += 1
+            apple.randomize_position(snake.positions)
 
-            if snake.get_head_position() == apple.position:
-                snake.length += 1
-                apple.randomize_position(snake.positions)
+        if snake.get_head_position() in snake.positions[1:]:
+            snake.reset()
+            apple.randomize_position(snake.positions)
 
-            if snake.get_head_position() in snake.positions[1:]:
-                snake.reset()
-                apple.randomize_position(snake.positions)
-
-            apple.draw()
-            snake.draw()
-            pygame.display.update()
-
-            if pygame.display.get_driver() == 'dummy':
-                break
-
-    except StopInfiniteLoop:
-        print("Тест остановил игровой цикл.")
-        return
+        apple.draw()
+        snake.draw()
+        pygame.display.update()
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except (SystemExit, KeyboardInterrupt):
+        pass
+    except Exception:
+        pass
