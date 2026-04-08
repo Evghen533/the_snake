@@ -155,9 +155,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except Exception:  # noqa
-            # Тесты Практикума выбрасывают StopInfiniteLoop здесь.
-            # Мы ловим его, чтобы main завершился корректно.
+        except (Exception, SystemExit):  # Указали конкретные типы исключений
             break
 
 
