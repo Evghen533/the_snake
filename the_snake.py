@@ -155,11 +155,12 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
-            break
-        except Exception:  # noqa: PIE786
+        except (RuntimeError, TypeError, NameError):
             break
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        pass
