@@ -133,7 +133,7 @@ def handle_keys(game_object):
 
 
 def main():
-    """Основная логика игры."""
+    """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -155,6 +155,7 @@ def main():
         apple.draw()
         snake.draw()
         pygame.display.update()
+
             
         except Exception:
             # Это перехватит StopInfiniteLoop от теста и позволит ему 
