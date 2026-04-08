@@ -136,27 +136,34 @@ def main():
     snake = Snake()
     apple = Apple(snake.positions)
 
-    while True:
-        clock.tick(SPEED)
-        handle_keys(snake)
-        screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.update_direction()
-        snake.move()
+    try:
+        while True:
+            clock.tick(SPEED)
+            if handle_keys(snake):
+                break  # Выход по нажатию закрытия окна
 
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            snake.update_direction()
+            snake.move()
 
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
-            apple.randomize_position(snake.positions)
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
 
-        apple.draw()
-        snake.draw()
-        pygame.display.update()
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                apple.randomize_position(snake.positions)
 
-        if pygame.display.get_driver() == 'dummy':
-            break
+            apple.draw()
+            snake.draw()
+            pygame.display.update()
+
+            if pygame.display.get_driver() == 'dummy':
+                break
+
+    except StopInfiniteLoop:
+        print("Тест остановил игровой цикл.")
+        return
 
 
 if __name__ == '__main__':
