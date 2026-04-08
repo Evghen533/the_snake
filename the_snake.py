@@ -156,12 +156,6 @@ def main():
         snake.draw()
         pygame.display.update()
 
-            
-        except Exception:
-            # Это перехватит StopInfiniteLoop от теста и позволит ему 
-            # корректно завершить проверку без AssertionError
-            break
-
 
 if __name__ == '__main__':
     main()
