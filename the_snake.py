@@ -156,9 +156,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, Exception):  # noqa: PIE786
+        except EOFError:
             break
-
 
 if __name__ == '__main__':
     main()
