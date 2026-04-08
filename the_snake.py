@@ -158,9 +158,4 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except (SystemExit, KeyboardInterrupt):
-        pass
-    except BaseException:  # noqa: B036, PIE786
-        pass
+    main()
