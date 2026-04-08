@@ -156,8 +156,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        pygame.display.update()
-        if pygame.display.get_surface() is None:
+        except Exception:  # noqa: PIE786
             break
 
 
