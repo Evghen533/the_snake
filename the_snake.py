@@ -155,9 +155,9 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (RuntimeError, NameError, TypeError, ValueError):
             break
-        except BaseException:
+        except (KeyboardInterrupt, SystemExit):
             break
 
 
