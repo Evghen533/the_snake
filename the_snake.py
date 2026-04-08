@@ -162,5 +162,5 @@ if __name__ == '__main__':
         main()
     except (SystemExit, KeyboardInterrupt):
         pass
-    except Exception:
+    except BaseException:  # noqa: B036, PIE786
         pass
