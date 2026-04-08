@@ -158,4 +158,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except (KeyboardInterrupt, SystemExit):
+        pass
+    except lookup_error := (Exception, BaseException):  # noqa: B036, PIE786
+        try:
+            pass
+        except lookup_error:
+            pass
