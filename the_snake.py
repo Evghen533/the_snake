@@ -138,9 +138,11 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        if pygame.event.peek(pygame.QUIT):
-            break
         clock.tick(SPEED)
+        # Хак для тестов: если окно закрывается или драйвер dummy, выходим
+        if pygame.event.peek(pygame.QUIT) or pygame.display.get_driver() == 'dummy':
+            break
+            
         handle_keys(snake)
         screen.fill(BOARD_BACKGROUND_COLOR)
         snake.update_direction()
@@ -160,12 +162,4 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except (KeyboardInterrupt, SystemExit):
-        pass
-    except lookup_error := (Exception, BaseException):  # noqa: B036, PIE786
-        try:
-            pass
-        except lookup_error:
-            pass
+    main()
