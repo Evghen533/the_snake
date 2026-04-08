@@ -153,11 +153,16 @@ def main():
                 snake.reset()
                 apple.randomize_position(snake.positions)
 
-            apple.draw()
-            snake.draw()
-            pygame.display.update()
-        except EOFError:
+        apple.draw()
+        snake.draw()
+        pygame.display.update()
+
+        if pygame.display.get_driver() == 'dummy':
             break
 
+
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except (RuntimeError, SystemExit):
+        pass
