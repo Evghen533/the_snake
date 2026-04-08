@@ -155,8 +155,10 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, ArithmeticError, AttributeError):
-            break
+
+
+            if not pygame.get_init():
+                break
 
 
 if __name__ == '__main__':
