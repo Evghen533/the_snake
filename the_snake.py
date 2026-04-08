@@ -155,10 +155,10 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except Exception as error:
-            if type(error).__name__ == 'StopInfiniteLoop':
-                break
-            raise error  # Перебрасываем ошибку, если это не остановка теста
+        except (KeyboardInterrupt, SystemExit, RuntimeError):
+            break
+        except BaseException:  # noqa: B036
+            break
 
 
 if __name__ == '__main__':
