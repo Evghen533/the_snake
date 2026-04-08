@@ -139,9 +139,9 @@ def main():
 
     while True:
         clock.tick(SPEED)
-        # Разбиваем условие на две строки, чтобы уложиться в лимит PEP8
-        if (pygame.event.peek(pygame.QUIT)
-                or pygame.display.get_driver() == 'dummy'):
+        # Переносим условие, чтобы строка была короче 79 символов
+        if (pygame.event.peek(pygame.QUIT) or
+                pygame.display.get_driver() == 'dummy'):
             break
 
         handle_keys(snake)
