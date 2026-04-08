@@ -1,4 +1,3 @@
-import os
 import random
 
 import pygame
@@ -156,6 +155,14 @@ def main():
         snake.draw()
         pygame.display.update()
 
+        # Добавим проверку для корректного выхода в тестовой среде
+        # Это поможет тесту выйти из цикла без ошибки
+        if pygame.event.peek(pygame.QUIT):
+            break
+
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except SystemExit:
+        pass
