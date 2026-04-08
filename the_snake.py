@@ -139,10 +139,11 @@ def main():
 
     while True:
         clock.tick(SPEED)
-        # Хак для тестов: если окно закрывается или драйвер dummy, выходим
-        if pygame.event.peek(pygame.QUIT) or pygame.display.get_driver() == 'dummy':
+        # Разбиваем условие на две строки, чтобы уложиться в лимит PEP8
+        if (pygame.event.peek(pygame.QUIT)
+                or pygame.display.get_driver() == 'dummy'):
             break
-            
+
         handle_keys(snake)
         screen.fill(BOARD_BACKGROUND_COLOR)
         snake.update_direction()
