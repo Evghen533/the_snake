@@ -139,9 +139,8 @@ def main():
 
     while True:
         clock.tick(SPEED)
-        # Переносим условие, чтобы строка была короче 79 символов
-        if (pygame.event.peek(pygame.QUIT) or
-                pygame.display.get_driver() == 'dummy'):
+        if (pygame.event.peek(pygame.QUIT)
+                or pygame.display.get_driver() == 'dummy'):
             break
 
         handle_keys(snake)
