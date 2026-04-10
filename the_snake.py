@@ -155,7 +155,7 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
-        except BaseException:  # noqa: B036, PIE786
+        except (RuntimeError, NameError):
             break
 
 
