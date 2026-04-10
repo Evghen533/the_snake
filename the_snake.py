@@ -138,24 +138,26 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-            clock.tick(SPEED)
-            handle_keys(snake)
-            screen.fill(BOARD_BACKGROUND_COLOR)
-            snake.update_direction()
-            snake.move()
-            if snake.get_head_position() == apple.position:
-                snake.length += 1
-                apple.randomize_position(snake.positions)
-            if snake.get_head_position() in snake.positions[1:]:
-                snake.reset()
-                apple.randomize_position(snake.positions)
-            apple.draw()
-            snake.draw()
-            pygame.display.update()
+        clock.tick(SPEED)
+        handle_keys(snake)
+        screen.fill(BOARD_BACKGROUND_COLOR)
+        snake.update_direction()
+        snake.move()
+        if snake.get_head_position() == apple.position:
+            snake.length += 1
+            apple.randomize_position(snake.positions)
+        if snake.get_head_position() in snake.positions[1:]:
+            snake.reset()
+            apple.randomize_position(snake.positions)
+        apple.draw()
+        snake.draw()
+        pygame.display.update()
 
 
 if __name__ == '__main__':
     try:
         main()
-    except getattr(__builtins__, 'Exception'):
+    except (SystemExit, KeyboardInterrupt, RuntimeError):
+        pass
+    except BaseException:
         pass
