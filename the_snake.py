@@ -155,9 +155,4 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except (SystemExit, KeyboardInterrupt, RuntimeError):
-        pass
-    except BaseException:
-        pass
+    main()
