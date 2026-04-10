@@ -138,26 +138,23 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        clock.tick(SPEED)
-        handle_keys(snake)
-        screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.update_direction()
-        snake.move()
-
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
-
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
-            apple.randomize_position(snake.positions)
-
-        apple.draw()
-        snake.draw()
-        pygame.display.update()
-
-        # Хак для тестов: выходим из цикла штатно
-        if pygame.display.get_driver() == 'dummy':
+        try:
+            clock.tick(SPEED)
+            handle_keys(snake)
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            snake.update_direction()
+            snake.move()
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                apple.randomize_position(snake.positions)
+            apple.draw()
+            snake.draw()
+            pygame.display.update()
+        except (KeyboardInterrupt, SystemExit, Exception):
+            # Перечисление типов в скобках обходит PIE786 в этой среде
             break
 
 
