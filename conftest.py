@@ -1,5 +1,5 @@
-# conftest.py
 import pytest
+
 
 class StopInfiniteLoop(Exception):
     """Исключение для остановки бесконечного цикла в тестах."""
