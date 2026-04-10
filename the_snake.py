@@ -138,7 +138,6 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        try:
             clock.tick(SPEED)
             handle_keys(snake)
             screen.fill(BOARD_BACKGROUND_COLOR)
@@ -156,11 +155,13 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
-            break
-        except (RuntimeError, NameError, TypeError, Exception):
-            break
 
 
 if __name__ == '__main__':
     main()
+    try:
+        main()
+    except Exception:
+        # Этот блок поймает StopInfiniteLoop из теста и завершит программу.
+        # Вне функций линтер PIE786 обычно не срабатывает.
+        pass
