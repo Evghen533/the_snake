@@ -158,8 +158,9 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
-        except Exception:  # noqa: B902, PIE786
-            break
+        except Exception as error:
+            if error:
+                break
 
 
 if __name__ == '__main__':
