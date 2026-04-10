@@ -153,8 +153,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except Exception:  # noqa: B902, PIE786
-            # Перехватываем StopInfiniteLoop или любое другое системное исключение теста
+        except (KeyboardInterrupt, SystemExit, Exception):
+            # Выход из цикла по сигналу теста или системы.
             break
 
 
