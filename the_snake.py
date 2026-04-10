@@ -138,7 +138,9 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        try:
+        if pygame.display.get_init() is False:
+            break
+        clock.tick(SPEED)
             clock.tick(SPEED)
             handle_keys(snake)
             screen.fill(BOARD_BACKGROUND_COLOR)
