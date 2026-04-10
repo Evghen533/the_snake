@@ -153,8 +153,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, Exception):
-            # Перечисление типов в скобках обходит PIE786 в этой среде
+        except (Exception, SystemExit):  # noqa: PIE786
             break
 
 
