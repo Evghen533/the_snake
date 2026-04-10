@@ -138,27 +138,21 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        clock.tick(SPEED)
-        if (pygame.event.peek(pygame.QUIT)
-                or pygame.display.get_driver() == 'dummy'):
-            break
-
-        handle_keys(snake)
-        screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.update_direction()
-        snake.move()
-
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
-
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
-            apple.randomize_position(snake.positions)
-
-        apple.draw()
-        snake.draw()
-        pygame.display.update()
+        try:
+            clock.tick(SPEED)
+            handle_keys(snake)
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            snake.update_direction()
+            snake.move()
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                apple.randomize_position(snake.positions)
+            apple.draw()
+            snake.draw()
+            pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
         except Exception as e:
