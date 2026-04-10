@@ -153,9 +153,9 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, RuntimeError):
+        except (KeyboardInterrupt, SystemExit):
             break
-        except Exception:  # noqa: PIE786
+        except BaseException:  # noqa: B036
             break
 
 
