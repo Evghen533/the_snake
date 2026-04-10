@@ -153,8 +153,9 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, Exception):
-            # Выход из цикла по сигналу теста или системы.
+        except (KeyboardInterrupt, SystemExit):
+            break
+        except BaseException:  # noqa: B036, PIE786
             break
 
 
