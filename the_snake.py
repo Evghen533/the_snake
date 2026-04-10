@@ -138,9 +138,7 @@ def main():
     apple = Apple(snake.positions)
 
     while True:
-        if pygame.display.get_init() is False:
-            break
-        clock.tick(SPEED)
+        try:
             clock.tick(SPEED)
             handle_keys(snake)
             screen.fill(BOARD_BACKGROUND_COLOR)
@@ -155,9 +153,9 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, RuntimeError):
             break
-        except (Exception,):  # noqa: PIE786
+        except Exception:  # noqa: PIE786
             break
 
 
