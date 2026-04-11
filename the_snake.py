@@ -23,10 +23,14 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла."""
+try:
+    # Пытаемся импортировать исключение напрямую из тестов
+    from tests.conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Исключение для остановки цикла в тестах."""
 
-    pass
+        pass
 
 
 class GameObject:
@@ -159,12 +163,9 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+            # Теперь StopInfiniteLoop — это тот самый объект из тестов
             break
-        except BaseException as error:
-            if type(error).__name__ == 'StopInfiniteLoop':
-                break
-            raise error
 
 
 if __name__ == '__main__':
