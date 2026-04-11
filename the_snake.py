@@ -28,12 +28,6 @@ class StopInfiniteLoop(Exception):
     pass
 
 
-# Кортеж для перехвата. Мы добавим туда тип исключения по имени динамически.
-
-# Собираем кортеж исключений для выхода
-EXIT_EXCEPTIONS = (KeyboardInterrupt, SystemExit, StopInfiniteLoop)
-
-
 class GameObject:
     """Базовый класс для игровых объектов."""
 
