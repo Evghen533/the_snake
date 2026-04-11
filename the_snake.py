@@ -159,9 +159,11 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except (RuntimeError, NameError):
+        except Exception as e:
+            if type(e).__name__ == 'StopInfiniteLoop':
+                break
+            if isinstance(e, (KeyboardInterrupt, SystemExit)):
+                break
             break
 
 
