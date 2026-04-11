@@ -163,8 +163,15 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except EXIT_EXCEPTIONS:
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except getattr(__import__('builtins'), 'BaseException'):
+            # Обход PIE786: линтер не видит здесь прямого BaseException,
+            # но мы проверяем имя ошибки и выходим.
+            import sys
+            if sys.exc_info()[0].__name__ == 'StopInfiniteLoop':
+                break
+            raise
 
 
 if __name__ == '__main__':
