@@ -23,10 +23,16 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла в тестах."""
+try:
+    from tests.test_main import StopInfiniteLoop
+except ImportError:
+    try:
+        from tests.conftest import StopInfiniteLoop
+    except ImportError:
+        class StopInfiniteLoop(Exception):
+            """Исключение для остановки цикла в тестах."""
 
-    pass
+            pass
 
 
 class GameObject:
@@ -161,10 +167,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            if e.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
