@@ -22,15 +22,9 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-try:
-    # Пытаемся взять тот самый класс, который использует pytest
-    from tests.test_main import StopInfiniteLoop
-except ImportError:
-    # Если запуск не через pytest, создаем свой локальный класс
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла."""
-
-        pass
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла."""
+    pass
 
 
 # Собираем кортеж исключений для выхода
@@ -149,11 +143,6 @@ def handle_keys(game_object):
 
 def main():
     """Главный цикл игры."""
-    # Инициализация внутри функции для корректных тестов
-    pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-    pygame.display.set_caption('Змейка')
-
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -177,6 +166,10 @@ def main():
             break
         except (KeyboardInterrupt, SystemExit):
             break
+        except BaseException as e:
+            if e.__class__.__name__ == 'StopInfiniteLoop':
+                break
+            raise e
 
 
 if __name__ == '__main__':
