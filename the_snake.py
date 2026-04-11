@@ -144,6 +144,11 @@ def handle_keys(game_object):
 
 def main():
     """Главный цикл игры."""
+    # Инициализация внутри функции для корректных тестов
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    pygame.display.set_caption('Змейка')
+
     snake = Snake()
     apple = Apple(snake.positions)
 
