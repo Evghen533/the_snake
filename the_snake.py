@@ -145,7 +145,9 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-    while True:
+
+    running = True
+    while running:
         try:
             clock.tick(SPEED)
             handle_keys(snake)
@@ -161,17 +163,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
-            break
-        except StopInfiniteLoop:
-            break
-        except BaseException:
-            # Если это StopInfiniteLoop (по имени), выходим.
-            # Иначе — пробрасываем ошибку дальше (precise handling).
-            import sys
-            if sys.exc_info()[0].__name__ == 'StopInfiniteLoop':
-                break
-            raise
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+            running = False
 
 
 if __name__ == '__main__':
