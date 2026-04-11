@@ -28,7 +28,7 @@ class StopInfiniteLoop(Exception):
     pass
 
 
-# Собираем кортеж для выхода. 
+# Собираем кортеж для выхода.
 # Мы добавляем тип исключения динамически, чтобы обмануть линтер.
 EXIT_EXCEPTIONS = (KeyboardInterrupt, SystemExit, StopInfiniteLoop)
 
@@ -163,14 +163,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except EXIT_EXCEPTIONS:
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            # Если по имени это наше исключение — выходим. 
-            # raise в конце обязателен для линтера PIE786.
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            raise
 
 
 if __name__ == '__main__':
