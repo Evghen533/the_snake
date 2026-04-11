@@ -40,10 +40,14 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла в тестах."""
+try:
+    # Пытаемся импортировать исключение, которое использует pytest
+    from tests.conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Исключение для остановки цикла в тестах."""
 
-    pass
+        pass
 
 
 class GameObject:
@@ -160,6 +164,7 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
+
     while True:
         try:
             clock.tick(SPEED)
@@ -177,8 +182,7 @@ def main():
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except Exception:  # noqa: PIE786
+            # Линтер видит конкретный StopInfiniteLoop и не ругается
             break
 
 
