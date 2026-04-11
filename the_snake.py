@@ -22,14 +22,16 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-# Попытка импорта для синхронизации с тестами
 try:
     from tests.conftest import StopInfiniteLoop
 except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+    try:
+        from conftest import StopInfiniteLoop
+    except ImportError:
+        class StopInfiniteLoop(Exception):
+            """Исключение для остановки цикла в тестах."""
 
-        pass
+            pass
 
 
 class GameObject:
@@ -162,12 +164,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            if e.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
