@@ -167,12 +167,12 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except getattr(__import__('builtins'), 'ArithmeticError'):
-            # Это "заглушка" для линтера. 
-            # На самом деле мы проверим имя любой ошибки через sys.exc_info
-            import sys
-            if sys.exc_info()[0].__name__ == 'StopInfiniteLoop':
+        except Exception as e:
+            # Трюк: проверяем имя класса строкой. 
+            # Это обходит проблему "разных" классов StopInfiniteLoop.
+            if type(e).__name__ == 'StopInfiniteLoop':
                 break
+            # Пробрасываем реальные ошибки дальше
             raise
 
 
