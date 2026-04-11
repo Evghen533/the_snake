@@ -41,7 +41,6 @@ clock = pygame.time.Clock()
 
 
 try:
-    # Пытаемся импортировать исключение, которое использует pytest
     from tests.conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
@@ -182,7 +181,6 @@ def main():
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            # Линтер видит конкретный StopInfiniteLoop и не ругается
             break
 
 
