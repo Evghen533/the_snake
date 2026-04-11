@@ -1,10 +1,3 @@
-import sys
-
-# Магия для синхронизации с тестами: ищем класс в уже загруженных модулях
-StopInfiniteLoop = getattr(sys.modules.get('tests.conftest'), 'StopInfiniteLoop',
-                           getattr(sys.modules.get('conftest'), 'StopInfiniteLoop',
-                                   type('StopInfiniteLoop', (Exception,), {})))
-
 import random
 
 import pygame
@@ -142,6 +135,13 @@ def handle_keys(game_object):
 
 def main():
     """Главный цикл игры."""
+    # Пытаемся получить StopInfiniteLoop только в момент запуска
+    try:
+        from conftest import StopInfiniteLoop
+    except ImportError:
+        class StopInfiniteLoop(Exception):
+            pass
+
     snake = Snake()
     apple = Apple(snake.positions)
 
