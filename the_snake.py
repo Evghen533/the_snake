@@ -24,6 +24,7 @@ clock = pygame.time.Clock()
 
 class StopInfiniteLoop(Exception):
     """Исключение для остановки цикла."""
+
     pass
 
 
@@ -162,14 +163,10 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except StopInfiniteLoop:
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except (KeyboardInterrupt, SystemExit):
+        except EOFError:
             break
-        except BaseException as e:
-            if e.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
