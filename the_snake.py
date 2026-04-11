@@ -149,36 +149,25 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-
     while True:
-        clock.tick(SPEED)
-        handle_keys(snake)
-        screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.update_direction()
-        snake.move()
-
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
-
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
-            apple.randomize_position(snake.positions)
-
-        apple.draw()
-        snake.draw()
-
         try:
+            clock.tick(SPEED)
+            handle_keys(snake)
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            snake.update_direction()
+            snake.move()
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                apple.randomize_position(snake.positions)
+            apple.draw()
+            snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except StopInfiniteLoop:
             break
-        except Exception:
-            # Это единственный способ пройти тест в этой среде:
-            # Перехватываем всё на уровне update, чтобы main завершилась тихо.
-            if 'StopInfiniteLoop' in str(pygame.display.update):
-                break
-            # Если линтер ругается на Exception выше, удалите этот блок
-            # и оставьте только break в основном блоке ниже.
+        except (KeyboardInterrupt, SystemExit):
             break
 
 
