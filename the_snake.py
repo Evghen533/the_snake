@@ -159,12 +159,14 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            if type(e).__name__ == 'StopInfiniteLoop':
+        except BaseException as error:
+            # Обход несовпадения объектов классов через проверку имени.
+            # raise в конце обязателен для линтера PIE786.
+            if error.__class__.__name__ == 'StopInfiniteLoop':
                 break
-            raise e
+            raise error
 
 
 if __name__ == '__main__':
