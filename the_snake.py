@@ -24,8 +24,7 @@ clock = pygame.time.Clock()
 
 
 try:
-    # Пытаемся импортировать исключение напрямую из тестов
-    from tests.conftest import StopInfiniteLoop
+    from tests.test_main import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
         """Исключение для остановки цикла в тестах."""
@@ -163,9 +162,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
-            break
-        except Exception:  # noqa: PIE786
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
 
 
