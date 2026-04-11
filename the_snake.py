@@ -166,7 +166,7 @@ def main():
         except StopInfiniteLoop:
             break
         except BaseException:
-            # Если это StopInfiniteLoop (по имени), выходим. 
+            # Если это StopInfiniteLoop (по имени), выходим.
             # Иначе — пробрасываем ошибку дальше (precise handling).
             import sys
             if sys.exc_info()[0].__name__ == 'StopInfiniteLoop':
