@@ -22,6 +22,12 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки бесконечного цикла в тестах."""
+
+    pass
+
+
 class GameObject:
     """Базовый класс для игровых объектов."""
 
@@ -131,11 +137,6 @@ def handle_keys(game_object):
             elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
                 game_object.next_direction = RIGHT
 
-
-# В начало файла the_snake.py добавьте импорт (если его там нет)
-# или просто определите класс исключения, чтобы код его знал:
-class StopInfiniteLoop(Exception):
-    pass
 
 def main():
     """Главный цикл игры."""
