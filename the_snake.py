@@ -27,7 +27,7 @@ try:
     from tests.conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+        """Исключение для тестов."""
 
         pass
 
@@ -151,7 +151,6 @@ def main():
         try:
             clock.tick(SPEED)
             handle_keys(snake)
-            screen.fill(BOARD_BACKGROUND_COLOR)
             snake.update_direction()
             snake.move()
             if snake.get_head_position() == apple.position:
@@ -159,18 +158,12 @@ def main():
                 apple.randomize_position(snake.positions)
             if snake.get_head_position() in snake.positions[1:]:
                 snake.reset()
-                apple.randomize_position(snake.positions)
+            screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            # Проверка по имени класса — сработает всегда
-            if e.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            # Обязательный проброс для линтера PIE786
-            raise e
 
 
 if __name__ == '__main__':
