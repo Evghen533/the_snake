@@ -167,7 +167,11 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except Exception:
+            break
 
 
 if __name__ == '__main__':
     main()
+
+# noqa: PIE786
