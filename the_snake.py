@@ -148,7 +148,6 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-
     while True:
         try:
             clock.tick(SPEED)
@@ -167,13 +166,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except Exception as e:
-            # Трюк: проверяем имя класса строкой. 
-            # Это обходит проблему "разных" классов StopInfiniteLoop.
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            # Пробрасываем реальные ошибки дальше
-            raise
 
 
 if __name__ == '__main__':
