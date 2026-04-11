@@ -135,13 +135,6 @@ def handle_keys(game_object):
 
 def main():
     """Главный цикл игры."""
-    # Пытаемся получить StopInfiniteLoop только в момент запуска
-    try:
-        from conftest import StopInfiniteLoop
-    except ImportError:
-        class StopInfiniteLoop(Exception):
-            pass
-
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -160,8 +153,12 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except (KeyboardInterrupt, SystemExit):
             break
+        except Exception as e:
+            if type(e).__name__ == 'StopInfiniteLoop':
+                break
+            raise e
 
 
 if __name__ == '__main__':
