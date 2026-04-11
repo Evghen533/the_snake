@@ -160,7 +160,6 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-
     while True:
         try:
             clock.tick(SPEED)
@@ -178,8 +177,6 @@ def main():
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except Exception:  # noqa: PIE786
             break
 
 
