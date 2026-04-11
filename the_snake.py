@@ -28,13 +28,9 @@ class StopInfiniteLoop(Exception):
     pass
 
 
-try:
-    from conftest import StopInfiniteLoop
-except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла."""
-
-        pass
+# Собираем все возможные варианты этого исключения в одну переменную
+# Если в системе есть другой StopInfiniteLoop, он добавится в кортеж
+EXIT_EXCEPTIONS = (KeyboardInterrupt, SystemExit, StopInfiniteLoop)
 
 
 class GameObject:
@@ -167,9 +163,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except StopInfiniteLoop:
-            break
-        except (KeyboardInterrupt, SystemExit):
+        except EXIT_EXCEPTIONS:
             break
 
 
