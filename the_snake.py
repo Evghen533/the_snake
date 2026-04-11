@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 
 class StopInfiniteLoop(Exception):
-    """Заглушка для тестов."""
+    """Исключение для остановки цикла в тестах."""
 
     pass
 
@@ -141,9 +141,6 @@ def handle_keys(game_object):
 
 def main():
     """Главный цикл игры."""
-    # Инициализация внутри, чтобы тесты могли корректно подменить драйвер
-    pygame.init()
-    
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -162,7 +159,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except BaseException:  # noqa
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
 
 
