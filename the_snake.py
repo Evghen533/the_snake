@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 
 try:
-    from tests.conftest import StopInfiniteLoop
+    from conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
         """Исключение для остановки цикла в тестах."""
