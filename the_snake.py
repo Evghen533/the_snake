@@ -162,10 +162,8 @@ def main():
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
         except BaseException as e:
-            # Если имя класса совпало, значит это исключение от pytest
             if e.__class__.__name__ == 'StopInfiniteLoop':
                 break
-            # Если это другая ошибка — пробрасываем её дальше (для PIE786)
             raise e
 
 
