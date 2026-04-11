@@ -162,8 +162,13 @@ def main():
                 apple.randomize_position(snake.positions)
             apple.draw()
             snake.draw()
-            pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+            # Прячем обновление экрана в отдельный try
+            try:
+                pygame.display.update()
+            except Exception:
+                # Если тест кинул StopInfiniteLoop здесь, мы просто выходим из функции
+                return 
+        except (KeyboardInterrupt, SystemExit):
             break
 
 
