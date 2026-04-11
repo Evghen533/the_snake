@@ -177,7 +177,7 @@ def main():
             # Перехватываем всё на уровне update, чтобы main завершилась тихо.
             if 'StopInfiniteLoop' in str(pygame.display.update):
                 break
-            # Если линтер ругается на Exception выше, удалите этот блок 
+            # Если линтер ругается на Exception выше, удалите этот блок
             # и оставьте только break в основном блоке ниже.
             break
 
