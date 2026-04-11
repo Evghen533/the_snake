@@ -155,8 +155,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
-        except RuntimeError as error:
-                break
 
 
 if __name__ == '__main__':
