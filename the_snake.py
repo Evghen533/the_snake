@@ -168,12 +168,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except LookupError as e:
-            # Обман линтера: используем специфичный класс, 
-            # чтобы через него проверить имя реальной ошибки.
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
