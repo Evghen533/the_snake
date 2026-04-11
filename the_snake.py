@@ -84,7 +84,7 @@ class Snake(GameObject):
 
     def get_head_position(self):
         """Возвращает позицию головы змейки."""
-        snake.get_head_position() == apple.position
+        return self.positions[0]
 
     def update_direction(self):
         """Обновляет направление движения змейки."""
@@ -152,6 +152,7 @@ def main():
             snake.move()
             if snake.get_head_position() == apple.position:
                 snake.length += 1
+                apple.randomize_position(snake.positions)
             if snake.get_head_position() in snake.positions[1:]:
                 snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
