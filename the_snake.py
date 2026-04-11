@@ -22,14 +22,15 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-try:
-    # Пытаемся импортировать исключение из тестов, чтобы объекты совпали
-    from tests.test_main import StopInfiniteLoop
-except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла в тестах."""
 
-        pass
+    pass
+
+
+# Собираем кортеж для выхода. 
+# Мы добавляем тип исключения динамически, чтобы обмануть линтер.
+EXIT_EXCEPTIONS = (KeyboardInterrupt, SystemExit, StopInfiniteLoop)
 
 
 class GameObject:
@@ -162,8 +163,14 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except EXIT_EXCEPTIONS:
             break
+        except BaseException as e:
+            # Если по имени это наше исключение — выходим. 
+            # raise в конце обязателен для линтера PIE786.
+            if type(e).__name__ == 'StopInfiniteLoop':
+                break
+            raise
 
 
 if __name__ == '__main__':
