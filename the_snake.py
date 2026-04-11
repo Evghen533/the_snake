@@ -143,7 +143,7 @@ def handle_keys(game_object):
 
 
 def main():
-    """Основной игровой цикл."""
+    """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -162,13 +162,8 @@ def main():
                 apple.randomize_position(snake.positions)
             apple.draw()
             snake.draw()
-            # Прячем обновление экрана в отдельный try
-            try:
-                pygame.display.update()
-            except Exception:
-                # Если тест кинул StopInfiniteLoop здесь, мы просто выходим из функции
-                return 
-        except (KeyboardInterrupt, SystemExit):
+            pygame.display.update()
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
 
 
