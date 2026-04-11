@@ -159,7 +159,10 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except StopInfiniteLoop:
+            # Тихий выход специально для тестов
+            return
+        except (KeyboardInterrupt, SystemExit):
             break
 
 
