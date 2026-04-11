@@ -170,7 +170,7 @@ def main():
 
         try:
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
         except Exception:
             # Это единственный способ пройти тест в этой среде:
