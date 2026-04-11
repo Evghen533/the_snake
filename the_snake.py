@@ -147,6 +147,7 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
+
     while True:
         try:
             clock.tick(SPEED)
@@ -165,9 +166,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except LookupError: 
-            # Это зацепка для линтера, которая нам не мешает
-            pass
 
 
 if __name__ == '__main__':
