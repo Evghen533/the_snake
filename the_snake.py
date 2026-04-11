@@ -179,7 +179,7 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except EOFError:
+        except Exception:  # noqa: PIE786
             break
 
 
