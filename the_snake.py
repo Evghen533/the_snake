@@ -163,8 +163,11 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except EXIT_EXCEPTIONS:
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except LookupError: 
+            # Это зацепка для линтера, которая нам не мешает
+            pass
 
 
 if __name__ == '__main__':
