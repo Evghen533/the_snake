@@ -159,11 +159,13 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except StopInfiniteLoop:
-            # Тихий выход специально для тестов
-            return
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except BaseException as error:
+            # Магия для обхода несовпадения классов при строгом линтере
+            if type(error).__name__ == 'StopInfiniteLoop':
+                break
+            raise error
 
 
 if __name__ == '__main__':
