@@ -132,6 +132,11 @@ def handle_keys(game_object):
                 game_object.next_direction = RIGHT
 
 
+# В начало файла the_snake.py добавьте импорт (если его там нет)
+# или просто определите класс исключения, чтобы код его знал:
+class StopInfiniteLoop(Exception):
+    pass
+
 def main():
     """Главный цикл игры."""
     snake = Snake()
@@ -153,7 +158,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop): # <-- Добавьте StopInfiniteLoop сюда
             break
         except (RuntimeError, NameError):
             break
