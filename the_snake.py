@@ -29,10 +29,12 @@ class StopInfiniteLoop(Exception):
 
 
 try:
-    from conftest import StopInfiniteLoop as TestStopLoop
-    StopInfiniteLoop = TestStopLoop
+    from conftest import StopInfiniteLoop
 except ImportError:
-    pass
+    class StopInfiniteLoop(Exception):
+        """Исключение для остановки цикла."""
+
+        pass
 
 
 class GameObject:
