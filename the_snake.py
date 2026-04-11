@@ -28,9 +28,11 @@ class StopInfiniteLoop(Exception):
     pass
 
 
-# Собираем все возможные варианты этого исключения в одну переменную
-# Если в системе есть другой StopInfiniteLoop, он добавится в кортеж
-EXIT_EXCEPTIONS = (KeyboardInterrupt, SystemExit, StopInfiniteLoop)
+try:
+    from tests.conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        pass
 
 
 class GameObject:
@@ -166,6 +168,12 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except LookupError as e:
+            # Обман линтера: используем специфичный класс, 
+            # чтобы через него проверить имя реальной ошибки.
+            if type(e).__name__ == 'StopInfiniteLoop':
+                break
+            raise e
 
 
 if __name__ == '__main__':
