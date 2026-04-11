@@ -167,6 +167,10 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except RuntimeError as error:
+            if 'StopInfiniteLoop' in str(type(error)):
+                break
+            raise error
 
 
 if __name__ == '__main__':
