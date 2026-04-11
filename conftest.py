@@ -1,9 +1,8 @@
 import os
-import random
 
 import pytest
 
-# Установка переменной окружения до импорта pygame
+# Устанавливаем драйвер до импорта pygame
 os.environ['SDL_VIDEODRIVER'] = 'dummy'
 
 import pygame  # noqa: E402
@@ -20,6 +19,8 @@ def mock_infinite_loop(monkeypatch):
     """Фикстура для эмуляции остановки цикла."""
     def mock_update(*args, **kwargs):
         raise StopInfiniteLoop
+
+    monkeypatch.setattr(pygame.display, 'update', mock_update)
 
     # Используем одинарные кавычки, как просит линтер (Q000)
     monkeypatch.setattr(pygame.display, 'update', mock_update)
