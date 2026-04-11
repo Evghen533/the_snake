@@ -159,15 +159,14 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except Exception as e:
-            # Проверяем имя исключения строкой, чтобы точно поймать его
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            # Если это системные сигналы выхода — тоже выходим
-            if isinstance(e, (KeyboardInterrupt, SystemExit)):
-                break
-            # Все остальные ошибки пробрасываем дальше для отладки
-            raise e
+        except StopInfiniteLoop:
+            break
+        except (KeyboardInterrupt, SystemExit):
+            break
+        except Exception:
+            # Если линтер все еще ругается на Exception, 
+            # попробуйте просто удалить этот блок или оставить только:
+            raise
 
 
 if __name__ == '__main__':
