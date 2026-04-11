@@ -163,10 +163,6 @@ def main():
             break
         except (KeyboardInterrupt, SystemExit):
             break
-        except Exception:
-            # Если линтер все еще ругается на Exception, 
-            # попробуйте просто удалить этот блок или оставить только:
-            raise
 
 
 if __name__ == '__main__':
