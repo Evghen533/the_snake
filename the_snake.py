@@ -22,16 +22,12 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки бесконечного цикла в тестах."""
-
-    pass
-
-
 try:
     from tests.conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
+        """Исключение для остановки бесконечного цикла в тестах."""
+
         pass
 
 
@@ -149,7 +145,6 @@ def main():
     """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-
     while True:
         try:
             clock.tick(SPEED)
