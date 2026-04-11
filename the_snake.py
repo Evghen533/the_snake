@@ -1,21 +1,3 @@
-import sys
-
-# Магия для синхронизации исключений с тестами
-if 'pytest' in sys.modules:
-    try:
-        from tests.conftest import StopInfiniteLoop
-    except ImportError:
-        try:
-            from conftest import StopInfiniteLoop
-        except ImportError:
-            class StopInfiniteLoop(Exception):
-                """Заглушка."""
-                pass
-else:
-    class StopInfiniteLoop(Exception):
-        """Заглушка."""
-        pass
-
 import random
 
 import pygame
@@ -34,6 +16,7 @@ APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
 SPEED = 10
 
+# Инициализация pygame
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 pygame.display.set_caption('Змейка')
@@ -62,7 +45,7 @@ class GameObject:
         pass
 
     def draw_cell(self, position, color=None):
-        """Отрисовка ячейки."""
+        """Отрисовка ячейки на игровом поле."""
         surface = pygame.display.get_surface()
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(surface, color or self.body_color, rect)
@@ -70,10 +53,10 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Класс яблока."""
+    """Класс, описывающий яблоко и его поведение."""
 
     def __init__(self, occupied_slots=None):
-        """Инициализация яблока."""
+        """Инициализация яблока с проверкой занятых клеток."""
         super().__init__(body_color=APPLE_COLOR)
         if occupied_slots is None:
             occupied_slots = []
@@ -84,7 +67,7 @@ class Apple(GameObject):
         self.draw_cell(self.position)
 
     def randomize_position(self, occupied_slots):
-        """Генерация случайной позиции яблока."""
+        """Генерация случайной позиции яблока, не занятой змейкой."""
         while True:
             rx = random.randint(0, GRID_WIDTH - 1)
             ry = random.randint(0, GRID_HEIGHT - 1)
@@ -95,7 +78,7 @@ class Apple(GameObject):
 
 
 class Snake(GameObject):
-    """Класс змейки."""
+    """Класс, описывающий змейку и её механику движения."""
 
     def __init__(self):
         """Инициализация змейки."""
@@ -103,17 +86,17 @@ class Snake(GameObject):
         self.reset()
 
     def get_head_position(self):
-        """Возвращает позицию головы."""
+        """Возвращает позицию головы змейки."""
         return self.positions[0]
 
     def update_direction(self):
-        """Обновление направления движения."""
+        """Обновляет направление движения змейки."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
-        """Логика движения змейки."""
+        """Логика перемещения змейки по полю."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos = (
@@ -127,14 +110,14 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self):
-        """Отрисовка змейки."""
+        """Отрисовка тела змейки и затирание хвоста."""
         for position in self.positions:
             self.draw_cell(position)
         if self.last:
             self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
 
     def reset(self):
-        """Сброс змейки в начальное состояние."""
+        """Сброс змейки в начальное состояние после смерти."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -143,7 +126,7 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object):
-    """Обработка клавиш управления."""
+    """Обработка нажатий клавиш для управления змейкой."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -160,7 +143,7 @@ def handle_keys(game_object):
 
 
 def main():
-    """Главный цикл игры."""
+    """Основной игровой цикл."""
     snake = Snake()
     apple = Apple(snake.positions)
 
