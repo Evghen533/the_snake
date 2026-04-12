@@ -1,3 +1,10 @@
+import sys
+
+# Магия синхронизации: ищем класс StopInfiniteLoop в уже загруженных модулях
+StopInfiniteLoop = getattr(sys.modules.get('tests.conftest'), 'StopInfiniteLoop',
+                           getattr(sys.modules.get('conftest'), 'StopInfiniteLoop',
+                                   type('StopInfiniteLoop', (Exception,), {})))
+
 import random
 
 import pygame
@@ -165,12 +172,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
