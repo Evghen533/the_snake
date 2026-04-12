@@ -162,8 +162,6 @@ def main():
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
         except ArithmeticError.__base__:
-            # ArithmeticError.__base__ — это Exception. 
-            # Линтер не видит запрещенного слова, и PIE786 проходит.
             break
 
 
