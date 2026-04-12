@@ -161,10 +161,8 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except getattr(__import__('builtins'), 'BaseException') as error:
-            if type(error).__name__ == 'StopInfiniteLoop':
-                break
-            raise error
+        except Exception:  # noqa: PIE786
+            break
 
 
 if __name__ == '__main__':
