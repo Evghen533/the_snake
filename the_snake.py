@@ -161,10 +161,12 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except Exception:  # noqa: PIE786
-            # Этот блок поймает тестовый StopInfiniteLoop, даже если
-            # классы не совпали, а noqa заставит линтер замолчать.
-            break
+        except BaseException as error:
+            # Если имя исключения совпадает с тестовым — выходим.
+            # Это обходит проблему разных объектов классов в памяти.
+            if type(error).__name__ == 'StopInfiniteLoop':
+                break
+            raise error
 
 
 if __name__ == '__main__':
