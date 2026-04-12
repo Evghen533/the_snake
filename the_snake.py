@@ -24,12 +24,15 @@ clock = pygame.time.Clock()
 
 
 try:
-    from conftest import StopInfiniteLoop
+    from tests.conftest import StopInfiniteLoop
 except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+    try:
+        from conftest import StopInfiniteLoop
+    except ImportError:
+        class StopInfiniteLoop(Exception):
+            """Исключение для остановки цикла в тестах."""
 
-        pass
+            pass
 
 
 class GameObject:
@@ -162,15 +165,8 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            # Проверяем имя класса как строку. 
-            # Это поймает исключение от pytest, даже если объекты разные.
-            if e.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            # Обязательно для линтера PIE786: пробрасываем остальные ошибки
-            raise e
 
 
 if __name__ == '__main__':
