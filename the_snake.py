@@ -23,13 +23,10 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-try:
-    from conftest import StopInfiniteLoop
-except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Заглушка для локального запуска."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла."""
 
-        pass
+    pass
 
 
 class GameObject:
@@ -163,8 +160,7 @@ def main():
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            # Теперь StopInfiniteLoop — это тот самый объект из conftest
+        except (KeyboardInterrupt, SystemExit):
             break
 
 
