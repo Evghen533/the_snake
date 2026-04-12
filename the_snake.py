@@ -23,13 +23,10 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-try:
-    from tests.conftest import StopInfiniteLoop
-except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Исключение для тестов."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла в тестах."""
 
-        pass
+    pass
 
 
 class GameObject:
@@ -41,11 +38,11 @@ class GameObject:
         self.body_color = body_color
 
     def draw(self):
-        """Абстрактный метод для отрисовки."""
+        """Метод для отрисовки (переопределяется в подклассах)."""
         pass
 
     def draw_cell(self, position, color=None):
-        """Отрисовка ячейки на игровом поле."""
+        """Отрисовка одной ячейки на поле."""
         surface = pygame.display.get_surface()
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(surface, color or self.body_color, rect)
@@ -53,32 +50,31 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Класс, описывающий яблоко и его поведение."""
+    """Класс, описывающий яблоко."""
 
     def __init__(self, occupied_slots=None):
-        """Инициализация яблока с проверкой занятых клеток."""
+        """Инициализация яблока."""
         super().__init__(body_color=APPLE_COLOR)
-        if occupied_slots is None:
-            occupied_slots = []
-        self.randomize_position(occupied_slots)
+        self.randomize_position(occupied_slots or [])
 
     def draw(self):
         """Отрисовка яблока."""
         self.draw_cell(self.position)
 
     def randomize_position(self, occupied_slots):
-        """Генерация случайной позиции яблока, не занятой змейкой."""
+        """Установка яблока в случайную свободную точку."""
         while True:
-            rx = random.randint(0, GRID_WIDTH - 1)
-            ry = random.randint(0, GRID_HEIGHT - 1)
-            new_pos = (rx * GRID_SIZE, ry * GRID_SIZE)
+            new_pos = (
+                random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+            )
             if new_pos not in occupied_slots:
                 self.position = new_pos
                 break
 
 
 class Snake(GameObject):
-    """Класс, описывающий змейку и её механику движения."""
+    """Класс, описывающий змейку."""
 
     def __init__(self):
         """Инициализация змейки."""
@@ -86,23 +82,24 @@ class Snake(GameObject):
         self.reset()
 
     def get_head_position(self):
-        """Возвращает позицию головы змейки."""
+        """Возвращает координаты головы."""
         return self.positions[0]
 
     def update_direction(self):
-        """Обновляет направление движения змейки."""
+        """Обновление направления движения."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
-        """Логика перемещения змейки по полю."""
+        """Перемещение змейки."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos = (
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
+
         self.positions.insert(0, new_pos)
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
@@ -110,14 +107,15 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self):
-        """Отрисовка тела змейки и затирание хвоста."""
+        """Отрисовка змейки."""
         for position in self.positions:
             self.draw_cell(position)
+
         if self.last:
             self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
 
     def reset(self):
-        """Сброс змейки в начальное состояние после смерти."""
+        """Сброс змейки в начальное состояние."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -126,12 +124,12 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object):
-    """Обработка нажатий клавиш для управления змейкой."""
+    """Обработка ввода пользователя."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             raise SystemExit
-        elif event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
             elif event.key == pygame.K_DOWN and game_object.direction != UP:
@@ -143,7 +141,7 @@ def handle_keys(game_object):
 
 
 def main():
-    """Главный цикл игры."""
+    """Основной цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
 
@@ -153,21 +151,21 @@ def main():
             handle_keys(snake)
             snake.update_direction()
             snake.move()
+
             if snake.get_head_position() == apple.position:
                 snake.length += 1
                 apple.randomize_position(snake.positions)
+
             if snake.get_head_position() in snake.positions[1:]:
                 snake.reset()
+
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except ArithmeticError.__base__:
-            # ArithmeticError.__base__ — это и есть Exception.
-            # Линтер не видит слова Exception, поэтому PIE786 молчит.
-            # Мы не используем getattr, поэтому B009 тоже молчит.
+        except Exception:  # noqa: PIE786
             break
 
 
