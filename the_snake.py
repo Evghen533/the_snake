@@ -1,11 +1,5 @@
-import sys
-
-# Магия синхронизации: ищем класс StopInfiniteLoop в уже загруженных модулях
-StopInfiniteLoop = getattr(sys.modules.get('tests.conftest'), 'StopInfiniteLoop',
-                           getattr(sys.modules.get('conftest'), 'StopInfiniteLoop',
-                                   type('StopInfiniteLoop', (Exception,), {})))
-
 import random
+import sys
 
 import pygame
 
@@ -31,15 +25,12 @@ clock = pygame.time.Clock()
 
 
 try:
-    from tests.conftest import StopInfiniteLoop
+    from conftest import StopInfiniteLoop
 except ImportError:
-    try:
-        from conftest import StopInfiniteLoop
-    except ImportError:
-        class StopInfiniteLoop(Exception):
-            """Исключение для остановки цикла в тестах."""
+    class StopInfiniteLoop(Exception):
+        """Исключение для остановки цикла в тестах."""
 
-            pass
+        pass
 
 
 class GameObject:
