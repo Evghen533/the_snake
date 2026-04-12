@@ -23,12 +23,12 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-# В начало файла, после импорта pygame
 try:
     from conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
         """Заглушка для локального запуска."""
+
         pass
 
 
