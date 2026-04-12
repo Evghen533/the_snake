@@ -23,10 +23,10 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-    class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла в тестах."""
 
-        pass
+    pass
 
 
 class GameObject:
@@ -38,11 +38,11 @@ class GameObject:
         self.body_color = body_color
 
     def draw(self):
-        """Метод для отрисовки (переопределяется в подклассах)."""
+        """Абстрактный метод для отрисовки."""
         pass
 
     def draw_cell(self, position, color=None):
-        """Отрисовка одной ячейки на поле."""
+        """Отрисовка ячейки на игровом поле."""
         surface = pygame.display.get_surface()
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(surface, color or self.body_color, rect)
@@ -50,31 +50,32 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Класс, описывающий яблоко."""
+    """Класс, описывающий яблоко и его поведение."""
 
     def __init__(self, occupied_slots=None):
         """Инициализация яблока."""
         super().__init__(body_color=APPLE_COLOR)
-        self.randomize_position(occupied_slots or [])
+        if occupied_slots is None:
+            occupied_slots = []
+        self.randomize_position(occupied_slots)
 
     def draw(self):
         """Отрисовка яблока."""
         self.draw_cell(self.position)
 
     def randomize_position(self, occupied_slots):
-        """Установка яблока в случайную свободную точку."""
+        """Генерация случайной позиции яблока."""
         while True:
-            new_pos = (
-                random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
-            )
+            rx = random.randint(0, GRID_WIDTH - 1)
+            ry = random.randint(0, GRID_HEIGHT - 1)
+            new_pos = (rx * GRID_SIZE, ry * GRID_SIZE)
             if new_pos not in occupied_slots:
                 self.position = new_pos
                 break
 
 
 class Snake(GameObject):
-    """Класс, описывающий змейку."""
+    """Класс, описывающий змейку и её механику."""
 
     def __init__(self):
         """Инициализация змейки."""
@@ -82,24 +83,23 @@ class Snake(GameObject):
         self.reset()
 
     def get_head_position(self):
-        """Возвращает координаты головы."""
+        """Возвращает позицию головы змейки."""
         return self.positions[0]
 
     def update_direction(self):
-        """Обновление направления движения."""
+        """Обновляет направление движения змейки."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
-        """Перемещение змейки."""
+        """Логика перемещения змейки по полю."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos = (
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT
         )
-
         self.positions.insert(0, new_pos)
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
@@ -107,10 +107,9 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self):
-        """Отрисовка змейки."""
+        """Отрисовка тела змейки."""
         for position in self.positions:
             self.draw_cell(position)
-
         if self.last:
             self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
 
@@ -124,12 +123,12 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object):
-    """Обработка ввода пользователя."""
+    """Обработка нажатий клавиш."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             raise SystemExit
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
             elif event.key == pygame.K_DOWN and game_object.direction != UP:
@@ -162,8 +161,8 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            if e.__class__.__name__ == 'StopInfiniteLoop':
+        except BaseException as error:
+            if type(error).__name__ == 'StopInfiniteLoop':
                 break
             raise
 
