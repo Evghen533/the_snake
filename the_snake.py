@@ -161,8 +161,6 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except ArithmeticError.__base__:
-            break
 
 
 if __name__ == '__main__':
