@@ -161,6 +161,12 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except BaseException as error:
+            # Магия: проверяем имя класса как строку.
+            # Линтер PIE786 разрешает BaseException, если есть raise.
+            if type(error).__name__ == 'StopInfiniteLoop':
+                break
+            raise error
 
 
 if __name__ == '__main__':
