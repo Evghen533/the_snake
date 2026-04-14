@@ -54,7 +54,7 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Класс, описывающий яблоко и его поведение."""
+    """Класс, описывающий яблоко и его логику."""
 
     def __init__(self, occupied_slots=None):
         """Инициализация яблока."""
