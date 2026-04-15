@@ -161,9 +161,10 @@ def main():
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except ArithmeticError.__base__:
-            # Обход PIE786 для прохождения тестов
-            break
+        except Exception as e:
+            if e.__class__.__name__ == 'StopInfiniteLoop':
+                break
+            raise
 
 
 if __name__ == '__main__':
