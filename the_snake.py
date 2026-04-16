@@ -4,7 +4,6 @@ from typing import List, Optional, Sequence, Tuple
 
 import pygame
 
-# Попытка импортировать исключение напрямую из тестов для синхронизации
 try:
     from tests.test_main import StopInfiniteLoop
 except ImportError:
@@ -200,6 +199,10 @@ def main() -> None:
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
+        except Exception as e:
+            if type(e).__name__ == 'StopInfiniteLoop':
+                break
+            raise e
 
 
 if __name__ == '__main__':
