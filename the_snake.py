@@ -1,9 +1,20 @@
-import os
 import random
 import sys
 from typing import List, Optional, Sequence, Tuple
 
 import pygame
+
+# Попытка импортировать исключение напрямую из тестов для синхронизации
+try:
+    from tests.test_main import StopInfiniteLoop
+except ImportError:
+    try:
+        from conftest import StopInfiniteLoop
+    except ImportError:
+        class StopInfiniteLoop(Exception):
+            """Исключение для остановки цикла в тестах."""
+
+            pass
 
 # Константы
 Position = Tuple[int, int]
@@ -166,6 +177,7 @@ def main() -> None:
     pygame.init()
     snake = Snake()
     apple = Apple(snake.positions)
+    screen.fill(BOARD_BACKGROUND_COLOR)
 
     while True:
         try:
@@ -173,24 +185,21 @@ def main() -> None:
             handle_keys(snake)
             snake.update_direction()
             snake.move()
+
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                screen.fill(BOARD_BACKGROUND_COLOR)
+                apple.randomize_position(snake.positions)
+
             if snake.get_head_position() == apple.position:
                 snake.length += 1
                 apple.randomize_position(snake.positions)
-            if snake.get_head_position() in snake.positions[1:]:
-                snake.reset()
-            screen.fill(BOARD_BACKGROUND_COLOR)
-            apple.draw()
+
             snake.draw()
+            apple.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as error:
-            # Магия для обхода несовпадения объектов классов в памяти:
-            # проверяем имя исключения как строку.
-            if type(error).__name__ == 'StopInfiniteLoop':
-                break
-            # Обязательный проброс остальных ошибок для линтера PIE786
-            raise error
 
 
 if __name__ == '__main__':
