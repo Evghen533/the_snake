@@ -23,10 +23,14 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла."""
+# В начало файла, сразу после импортов pygame и random
+try:
+    from conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Заглушка для локального запуска."""
 
-    pass
+        pass
 
 
 class GameObject:
@@ -160,10 +164,7 @@ def main():
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except ArithmeticError.__base__:
-            # ArithmeticError.__base__ — это и есть класс Exception.
-            # Линтер ищет текст "Exception", которого здесь нет.
+            # Теперь StopInfiniteLoop — это именно тот объект, который ждет тест
             break
 
 
