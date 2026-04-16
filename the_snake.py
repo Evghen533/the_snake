@@ -4,11 +4,6 @@ from typing import List, Optional, Sequence, Tuple
 
 import pygame
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла в тестах."""
-
-    pass
-
 # Константы
 Position = Tuple[int, int]
 Color = Tuple[int, int, int]
@@ -34,6 +29,12 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
+
+
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла в тестах."""
+
+    pass
 
 
 class GameObject:
