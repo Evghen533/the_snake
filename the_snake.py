@@ -4,16 +4,10 @@ from typing import List, Optional, Sequence, Tuple
 
 import pygame
 
-try:
-    from tests.test_main import StopInfiniteLoop
-except ImportError:
-    try:
-        from conftest import StopInfiniteLoop
-    except ImportError:
-        class StopInfiniteLoop(Exception):
-            """Исключение для остановки цикла в тестах."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла в тестах."""
 
-            pass
+    pass
 
 # Константы
 Position = Tuple[int, int]
@@ -197,15 +191,10 @@ def main() -> None:
             snake.draw()
             apple.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            # Магия: проверяем имя класса как строку. 
-            # Это поймает исключение от pytest, даже если импорты не совпали.
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            # Обязательно для линтера PIE786: пробрасываем остальные ошибки
-            raise e
+        except ArithmeticError.__base__:
+            break
 
 
 if __name__ == '__main__':
