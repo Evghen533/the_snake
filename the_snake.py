@@ -199,10 +199,6 @@ def main() -> None:
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except Exception as e:
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            raise e
 
 
 if __name__ == '__main__':
