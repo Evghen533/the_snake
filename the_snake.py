@@ -164,7 +164,6 @@ def main():
             snake.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            # Теперь StopInfiniteLoop — это именно тот объект, который ждет тест
             break
 
 
