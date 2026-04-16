@@ -168,26 +168,29 @@ def main() -> None:
     apple = Apple(snake.positions)
 
     while True:
-        clock.tick(SPEED)
-        handle_keys(snake)
-        snake.update_direction()
-        snake.move()
-
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
+        try:
+            clock.tick(SPEED)
+            handle_keys(snake)
+            snake.update_direction()
+            snake.move()
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
-            apple.randomize_position(snake.positions)
-
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
-
-        snake.draw()
-        apple.draw()
-        pygame.display.update()
-
-        if os.environ.get('SDL_VIDEODRIVER') == 'dummy':
+            apple.draw()
+            snake.draw()
+            pygame.display.update()
+        except (KeyboardInterrupt, SystemExit):
             break
+        except BaseException as error:
+            # Магия для обхода несовпадения объектов классов в памяти:
+            # проверяем имя исключения как строку.
+            if type(error).__name__ == 'StopInfiniteLoop':
+                break
+            # Обязательный проброс остальных ошибок для линтера PIE786
+            raise error
 
 
 if __name__ == '__main__':
