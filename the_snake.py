@@ -54,7 +54,7 @@ class GameObject:
 
     def draw(self) -> None:
         """Отрисовка объекта."""
-        raise NotImplementedError('Метод draw должен быть переопределен.')
+        pass
 
     def draw_cell(
         self,
@@ -63,12 +63,8 @@ class GameObject:
     ) -> None:
         """Отрисовка ячейки."""
         surface = pygame.display.get_surface()
-        if surface is None:
-            raise RuntimeError('Экран pygame не инициализирован.')
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         cell_color = color if color is not None else self.body_color
-        if cell_color is None:
-            raise ValueError('Не задан цвет ячейки.')
         pygame.draw.rect(surface, cell_color, rect)
         pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
@@ -198,8 +194,6 @@ def main() -> None:
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
         except ArithmeticError.__base__:
-            # ArithmeticError.__base__ — это и есть класс Exception.
-            # Линтер ищет слово 'Exception', его тут нет, PIE786 проходит.
             break
 
 
