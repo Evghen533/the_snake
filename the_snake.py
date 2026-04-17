@@ -195,15 +195,8 @@ def main() -> None:
             snake.draw()
             apple.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
             break
-        except BaseException as e:
-            # Трюк: проверяем имя класса строкой. 
-            # Это поймает StopInfiniteLoop от pytest в любой среде.
-            if type(e).__name__ == 'StopInfiniteLoop':
-                break
-            # Обязательно пробрасываем остальные ошибки для линтера PIE786
-            raise e
 
 
 if __name__ == '__main__':
