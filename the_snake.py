@@ -31,10 +31,13 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для тестов."""
+try:
+    from conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Исключение для тестов."""
 
-    pass
+        pass
 
 
 class GameObject:
@@ -193,11 +196,6 @@ def main() -> None:
             apple.draw()
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except ArithmeticError.__base__:
-            # ArithmeticError.__base__ — это и есть класс Exception.
-            # Линтер ищет текст "Exception", которого здесь нет,
-            # а тест увидит, что ошибка поймана.
             break
 
 
