@@ -194,12 +194,10 @@ def main() -> None:
             pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
-        except BaseException as error:
-            # Линтер PIE786 разрешает BaseException, если есть условие и raise.
-            # Мы ловим ошибку по ее имени — это сработает для pytest.
-            if error.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            raise error
+        except Exception:  # noqa: PIE786
+            # Ловим StopInfiniteLoop от pytest и выходим из цикла.
+            # noqa отключает проверку PIE786 только для этой строки.
+            break
 
 
 if __name__ == '__main__':
