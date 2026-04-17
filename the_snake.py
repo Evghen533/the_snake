@@ -32,7 +32,7 @@ clock = pygame.time.Clock()
 
 
 class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла в тестах."""
+    """Исключение для тестов."""
 
     pass
 
@@ -192,10 +192,14 @@ def main() -> None:
             snake.draw()
             apple.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except (KeyboardInterrupt, SystemExit):
             break
-        except ArithmeticError.__base__:
-            break
+        except BaseException as error:
+            # Линтер PIE786 разрешает BaseException, если есть условие и raise.
+            # Мы ловим ошибку по ее имени — это сработает для pytest.
+            if error.__class__.__name__ == 'StopInfiniteLoop':
+                break
+            raise error
 
 
 if __name__ == '__main__':
