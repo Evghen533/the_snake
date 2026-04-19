@@ -189,9 +189,8 @@ def main() -> None:
             apple.draw()
             snake.draw()
             pygame.display.update()
+# В main() в самом конце
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except ArithmeticError.__base__:
             break
 
 
