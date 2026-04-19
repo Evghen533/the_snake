@@ -1,16 +1,17 @@
 import pytest
 import pygame
+from conftest import StopInfiniteLoop
+from the_snake import main
 
 def test_main_run_without_exceptions():
-    # Инициализируем Pygame для теста
-    if not pygame.get_init():
-        pygame.init()
-
+    """Проверка, что main() корректно обрабатывает завершение цикла."""
     try:
-        main()  # функция должна завершиться без исключений
+        main()
+    except StopInfiniteLoop:
+        # Это ожидаемое поведение: тест прервал цикл
+        pass
+    except SystemExit:
+        # Это тоже корректный выход
+        pass
     except Exception as e:
-        pytest.fail(f"Функция main завершилась с исключением: {e}")
-    finally:
-        # Гарантированно завершаем Pygame после теста
-        if pygame.get_init():
-            pygame.quit()
+        pytest.fail(f"Функция main завершилась с необработанной ошибкой: {type(e).__name__}: {e}")
