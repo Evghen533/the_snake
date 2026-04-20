@@ -36,7 +36,7 @@ try:
     from conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+        """Заглушка для локального запуска."""
 
         pass
 
