@@ -33,9 +33,10 @@ Position = Tuple[int, int]
 # Инициализация pygame
 pygame.init()
 
-# Глобальные переменные (тесты ищут их здесь на уровне модуля)
+# Глобальные переменные
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
+
 
 try:
     from conftest import StopInfiniteLoop
@@ -44,6 +45,7 @@ except ImportError:
         """Заглушка для локального запуска."""
 
         pass
+
 
 class GameObject:
     """Базовый класс для всех игровых объектов."""
@@ -60,7 +62,6 @@ class GameObject:
     def draw_cell(self, position: Position, color: Optional[tuple] = None):
         """Отрисовывает одну ячейку на игровом поле."""
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-        # Используем self.body_color, если color не передан
         pygame.draw.rect(screen, color or self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
