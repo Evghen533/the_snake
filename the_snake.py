@@ -37,6 +37,13 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
+try:
+    from conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Заглушка для локального запуска."""
+
+        pass
 
 class GameObject:
     """Базовый класс для всех игровых объектов."""
@@ -151,28 +158,30 @@ def handle_keys(game_object: Snake):
 def main():
     """Основной игровой цикл."""
     pygame.display.set_caption('Змейка')
-
     snake = Snake()
     apple = Apple(snake.positions)
+    screen.fill(BOARD_BACKGROUND_COLOR)
 
     while True:
-        clock.tick(SPEED)
-        handle_keys(snake)
-        snake.update_direction()
-        snake.move()
+        try:
+            clock.tick(SPEED)
+            handle_keys(snake)
+            snake.update_direction()
+            snake.move()
 
-        if snake.get_head_position() == apple.position:
-            snake.length += 1
-            apple.randomize_position(snake.positions)
+            if snake.get_head_position() == apple.position:
+                snake.length += 1
+                apple.randomize_position(snake.positions)
 
-        if snake.get_head_position() in snake.positions[1:]:
-            snake.reset()
-            apple.randomize_position(snake.positions)
-            screen.fill(BOARD_BACKGROUND_COLOR)
+            if snake.get_head_position() in snake.positions[1:]:
+                snake.reset()
+                screen.fill(BOARD_BACKGROUND_COLOR)
 
-        apple.draw()
-        snake.draw()
-        pygame.display.update()
+            apple.draw()
+            snake.draw()
+            pygame.display.update()
+        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+            break
 
 
 if __name__ == '__main__':
