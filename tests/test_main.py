@@ -56,7 +56,7 @@ def test_data_processing(temporary_data):
     """
     Тест использует данные из фикстуры и проверяет их обработку
     """
-    print("Начало теста - данные:", temporary_data)
+    print("Начало теста № 1 - данные:", temporary_data)
 
     # Проверяем сумму
     assert sum(temporary_data) == 15
@@ -67,5 +67,16 @@ def test_data_processing(temporary_data):
     # Модифицируем данные (это безопасно - после теста они очистятся)
     temporary_data.append(6)
     print("Данные изменены:", temporary_data)
-   
-    print("Тест завершён")
+
+    print("Тест № 1 завершён")
+
+
+def test_data_after_session_fixture(temporary_data):
+    """
+    Тест использует данные из фикстуры и проверяет их обработку
+    """
+    print("Начало теста № 2 - данные:", temporary_data)
+
+    # Проверяем сумму
+    assert temporary_data == [1, 2, 3, 4, 5]
+    print("Тест № 2 завершён")
