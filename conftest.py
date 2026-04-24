@@ -25,3 +25,18 @@ def mock_update(monkeypatch):
             raise StopInfiniteLoop()
 
     monkeypatch.setattr('pygame.display.update', mocked_update)
+
+
+@pytest.fixture
+def temporary_data():
+    """
+    Фикстура с полным циклом: подготовка -> передача -> завершение
+    """
+    # ПОДГОТОВКА - выполняется ДО теста
+    print("Подготовительная логика перед тестом")
+    a = 1
+    # ПЕРЕДАЧА данных тесту
+    yield a
+    
+    # Завершающая логика - выполняется ПОСЛЕ теста
+    print("Тестирование завершено")
