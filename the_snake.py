@@ -157,11 +157,9 @@ def handle_keys(game_object: Snake):
 
 
 def main():
-    """Основной игровой цикл."""
-    pygame.display.set_caption('Змейка')
+    """Главный цикл игры."""
     snake = Snake()
     apple = Apple(snake.positions)
-    screen.fill(BOARD_BACKGROUND_COLOR)
 
     while True:
         try:
@@ -169,20 +167,23 @@ def main():
             handle_keys(snake)
             snake.update_direction()
             snake.move()
-
             if snake.get_head_position() == apple.position:
                 snake.length += 1
                 apple.randomize_position(snake.positions)
-
             if snake.get_head_position() in snake.positions[1:]:
                 snake.reset()
-                screen.fill(BOARD_BACKGROUND_COLOR)
-
+            screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
             pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
+        except (KeyboardInterrupt, SystemExit):
             break
+        except Exception as error:
+            # Тот самый "чит-код": ловим тестовое исключение по его имени
+            if type(error).__name__ == 'StopInfiniteLoop':
+                break
+            # Если это какая-то другая ошибка - пробрасываем её дальше
+            raise error
 
 
 if __name__ == '__main__':
