@@ -44,3 +44,9 @@ def test_addition(x, y, expected):
     """
     result = x + y
     assert result == expected
+
+
+# Использование фикстуры в тесте
+def test_addition_with_fixture(sample_numbers):
+    a, b, expected = sample_numbers
+    assert a + b == expected, f"{a} + {b} должно быть {expected}"
