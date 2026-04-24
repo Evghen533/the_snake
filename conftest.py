@@ -14,4 +14,3 @@ def mock_update(monkeypatch):
         raise StopInfiniteLoop()
 
     monkeypatch.setattr('pygame.display.update', mocked_update)
-
