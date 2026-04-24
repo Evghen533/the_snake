@@ -50,3 +50,11 @@ def test_addition(x, y, expected):
 def test_addition_with_fixture(sample_numbers):
     a, b, expected = sample_numbers
     assert a + b == expected, f"{a} + {b} должно быть {expected}"
+
+
+def test_data_processing(temporary_data):
+    """
+    Тест использует данные из фикстуры и проверяет их обработку
+    """
+    print("Начало теста - данные:", temporary_data)
+    assert isinstance(temporary_data, int), 'не соотвествует ожидаемому типу данных'
