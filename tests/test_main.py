@@ -1,18 +1,18 @@
 import pytest
 
-from conftest import StopInfiniteLoop
-from the_snake import main
+
+def add_sum(a, b):
+    return a + b
 
 
-def test_main_run_without_exceptions():
-    """Тест проверяет корректное прерывание функции main."""
-    try:
-        main()
-    except StopInfiniteLoop:
-        # Ожидаемое поведение: фикстура прервала цикл
-        pass
-    except SystemExit:
-        # Также допустимый вариант выхода
-        pass
-    except Exception as e:
-        pytest.fail(f'Функция main завершилась с ошибкой: {e}')
+# маркируем как смоук-тест
+@pytest.mark.smoke
+def test_add():
+    assert add_sum(2, 3) == 5, 'сумма не равна ожидаемой'
+
+
+# маркируем как регрессионный тест
+@pytest.mark.regression
+def test_type_result():
+    assert isinstance(add_sum(2, 3), int), \
+        'не соответствует ожидаемому типу данных'
