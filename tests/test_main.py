@@ -1,19 +1,17 @@
 import pytest
-
 from the_snake import main
 
 
 def test_main_run_without_exceptions():
-    """Тест проверяет, что main корректно завершается по требованию."""
+    """Проверка, что main корректно завершается по сигналу StopInfiniteLoop."""
     try:
         main()
     except Exception as e:
-        # Проверяем имя класса как строку. 
-        # Это сработает, даже если объекты в памяти не совпали.
+        # ПРОВЕРКА ПО ИМЕНИ: это решит проблему несовпадения объектов
         if type(e).__name__ == 'StopInfiniteLoop':
             return
-        # Если это выход из системы (sys.exit())
+        # Если это выход из системы — это тоже норма
         if isinstance(e, SystemExit):
             return
-        # Если прилетела любая другая реальная ошибка — валим тест
+        # Любая другая ошибка — провал
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
