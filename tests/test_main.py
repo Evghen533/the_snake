@@ -1,19 +1,19 @@
 import pytest
+import pygame
 
-# Импортируем тот самый класс, чтобы перехват сработал
-from conftest import StopInfiniteLoop
 from the_snake import main
 
 
 def test_main_run_without_exceptions():
-    """Тест проверяет корректное прерывание функции main."""
+    """Проверка main на корректный выход по исключению."""
     try:
         main()
-    except StopInfiniteLoop:
-        # Теперь объекты совпадут, и тест увидит, что исключение поймано
-        pass
-    except SystemExit:
-        pass
     except Exception as e:
-        # Если исключение не узнано, оно упадет сюда и вызовет fail
+        # Если название ошибки StopInfiniteLoop — значит всё круто, цикл прерван
+        if type(e).__name__ == 'StopInfiniteLoop':
+            return
+        # Если это выход из системы — тоже Ок
+        if isinstance(e, SystemExit):
+            return
+        # А вот если что-то другое — тогда заваливаем тест
         pytest.fail(f'При запуске функции main возникло исключение: {e}')
