@@ -2,14 +2,14 @@ import pytest
 
 
 class StopInfiniteLoop(Exception):
-    """Исключение для прерывания бесконечного цикла в тестах."""
+    """Исключение для остановки бесконечного цикла в тестах."""
 
     pass
 
 
 @pytest.fixture(autouse=True)
 def mock_update(monkeypatch):
-    """Фикстура для ограничения итераций цикла."""
+    """Подменяет pygame.display.update, чтобы прервать цикл."""
     def mocked_update(*args, **kwargs):
         raise StopInfiniteLoop()
 
