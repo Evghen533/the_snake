@@ -27,7 +27,7 @@ def mock_update(monkeypatch):
     monkeypatch.setattr('pygame.display.update', mocked_update)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def temporary_data():
     """
     Фикстура с полным циклом: подготовка -> передача -> очистка
