@@ -39,7 +39,7 @@ clock = pygame.time.Clock()
 
 
 class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла."""
+    """Исключение для остановки цикла в тестах."""
 
     pass
 
