@@ -38,13 +38,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 
-try:
-    from conftest import StopInfiniteLoop
-except ImportError:
-    class StopInfiniteLoop(Exception):
-        """Заглушка для локального запуска."""
+class StopInfiniteLoop(Exception):
+    """Исключение для остановки цикла."""
 
-        pass
+    pass
 
 
 class GameObject:
@@ -175,16 +172,10 @@ def main():
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
-            pygame.display.update()
+            pygame.display.update()  # Отсюда вылетит StopInfiniteLoop в тестах
         except (KeyboardInterrupt, SystemExit):
+            # Ловим только реальный выход пользователя
             break
-        except ArithmeticError.__base__ as error:
-            # ArithmeticError.__base__ — это и есть класс Exception.
-            # Линтер ищет текст "Exception", которого здесь нет,
-            # а проверка по имени поймает тестовый StopInfiniteLoop.
-            if error.__class__.__name__ == 'StopInfiniteLoop':
-                break
-            raise error
 
 
 if __name__ == '__main__':
