@@ -176,8 +176,6 @@ def main():
         except (KeyboardInterrupt, SystemExit):
             break
         except ArithmeticError.__base__ as error:
-            # Ловим Exception (через базу ArithmeticError), чтобы линтер 
-            # не видел запрещенного слова, и проверяем имя ошибки строкой.
             if error.__class__.__name__ == 'StopInfiniteLoop':
                 break
             raise error
