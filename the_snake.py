@@ -39,7 +39,7 @@ clock = pygame.time.Clock()
 
 
 class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла в тестах."""
+    """Исключение для остановки цикла."""
 
     pass
 
@@ -172,10 +172,9 @@ def main():
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
-            pygame.display.update()
-        except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except ArithmeticError.__base__:
+            pygame.display.update()  # Отсюда вылетит StopInfiniteLoop в тестах
+        except (KeyboardInterrupt, SystemExit):
+            # Ловим только системные прерывания
             break
 
 
