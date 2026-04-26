@@ -172,10 +172,11 @@ def main():
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
-            pygame.display.update()  # Отсюда вылетит StopInfiniteLoop в тестах
+            pygame.display.update()  # <-- Здесь pytest бросит исключение
         except (KeyboardInterrupt, SystemExit):
-            # Ловим только системные прерывания
+            # Ловим только системные сигналы выхода
             break
+        # Больше никаких except здесь быть не должно!
 
 
 if __name__ == '__main__':
