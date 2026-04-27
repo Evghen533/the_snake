@@ -175,7 +175,7 @@ def main():
             pygame.display.update()  # <-- Здесь pytest бросит исключение
         except (KeyboardInterrupt, SystemExit):
             break
-        except ArithmeticError.__base__ as error:
+        except BaseException as error:
             if error.__class__.__name__ == 'StopInfiniteLoop':
                 break
             raise error
