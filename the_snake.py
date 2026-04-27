@@ -38,10 +38,13 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 
-class StopInfiniteLoop(Exception):
-    """Исключение для остановки цикла."""
+try:
+    from conftest import StopInfiniteLoop
+except ImportError:
+    class StopInfiniteLoop(Exception):
+        """Исключение для остановки цикла в тестах."""
 
-    pass
+        pass
 
 
 class GameObject:
@@ -174,8 +177,6 @@ def main():
             snake.draw()
             pygame.display.update()  # <-- Здесь pytest бросит исключение
         except (KeyboardInterrupt, SystemExit, StopInfiniteLoop):
-            break
-        except Exception:  # noqa: PIE786
             break
 
 
