@@ -1,4 +1,6 @@
 import pytest
+
+from conftest import StopInfiniteLoop
 from the_snake import main
 
 
@@ -6,12 +8,11 @@ def test_main_run_without_exceptions():
     """Проверка, что main корректно завершается по сигналу StopInfiniteLoop."""
     try:
         main()
+    except StopInfiniteLoop:
+        # Это ожидаемый выход из цикла через фикстуру
+        pass
+    except SystemExit:
+        # Это корректный системный выход
+        pass
     except Exception as e:
-        # ПРОВЕРКА ПО ИМЕНИ: это решит проблему несовпадения объектов
-        if type(e).__name__ == 'StopInfiniteLoop':
-            return
-        # Если это выход из системы — это тоже норма
-        if isinstance(e, SystemExit):
-            return
-        # Любая другая ошибка — провал
-        pytest.fail(f'При запуске функции main возникло исключение: {e}')
+        pytest.fail(f'Функция main завершилась с ошибкой: {e}')
