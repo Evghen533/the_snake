@@ -5,7 +5,7 @@ from the_snake import main
 
 
 def test_main_run_without_exceptions():
-    """Проверка, что main корректно завершается по сигналу StopInfiniteLoop."""
+    """Проверка корректного завершения main по сигналу StopInfiniteLoop."""
     try:
         main()
     except StopInfiniteLoop:
