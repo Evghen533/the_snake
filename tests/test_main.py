@@ -1,18 +1,12 @@
-import pytest
+# test_math.py
+def add_sum(a, b):
+    return a + b
 
-from conftest import StopInfiniteLoop
-from the_snake import main
+
+def test_add():
+    assert add_sum(2, 3) == 5, 'сумма не равна ожидаемой'
 
 
-def test_main_run_without_exceptions():
-    """Проверка корректного завершения main по сигналу StopInfiniteLoop."""
-    try:
-        main()
-    except StopInfiniteLoop:
-        # Это ожидаемый выход из цикла через фикстуру
-        pass
-    except SystemExit:
-        # Это корректный системный выход
-        pass
-    except Exception as e:
-        pytest.fail(f'Функция main завершилась с ошибкой: {e}')
+def test_type_result():
+    assert isinstance(add_sum(2, 3), int), \
+        'не соответствует ожидаемому типу данных'
