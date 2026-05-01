@@ -1,6 +1,8 @@
 import random
 import sys
 from typing import List, Optional, Tuple
+import os
+os.environ['SDL_VIDEODRIVER'] = 'dummy'
 
 import pygame
 
