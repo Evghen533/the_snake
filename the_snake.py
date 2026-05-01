@@ -42,16 +42,16 @@ try:
     from conftest import StopInfiniteLoop
 except ImportError:
     class StopInfiniteLoop(Exception):
-        """Исключение для остановки цикла в тестах."""
+        'Исключение для остановки цикла в тестах.'
 
         pass
 
 
 class GameObject:
-    """Базовый класс для всех игровых объектов."""
+    'Базовый класс для всех игровых объектов.'
 
     def __init__(self, color: Optional[Tuple[int, int, int]] = None):
-        """Инициализирует базовые атрибуты объекта."""
+        'Инициализирует базовые атрибуты объекта.'
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.body_color = color if color else DEFAULT_COLOR
 
@@ -60,22 +60,22 @@ class GameObject:
         pass
 
     def draw_cell(self, position: Position, color: Optional[tuple] = None):
-        """Отрисовывает одну ячейку на игровом поле."""
+        'Отрисовывает одну ячейку на игровом поле.'
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, color or self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
 class Apple(GameObject):
-    """Класс, описывающий яблоко и его поведение."""
+    'Класс, описывающий яблоко и его поведение.'
 
     def __init__(self, occupied_slots: Optional[List[Position]] = None):
-        """Инициализирует яблоко в случайном месте."""
+        'Инициализирует яблоко в случайном месте.'
         super().__init__(APPLE_COLOR)
         self.randomize_position(occupied_slots or [self.position])
 
     def randomize_position(self, occupied_slots: List[Position]):
-        """Устанавливает случайное положение яблока на свободном месте."""
+        'Устанавливает случайное положение яблока на свободном месте.'
         while True:
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
@@ -85,7 +85,7 @@ class Apple(GameObject):
                 break
 
     def draw(self):
-        """Отрисовывает яблоко на экране."""
+        'Отрисовывает яблоко на экране.'
         self.draw_cell(self.position)
 
 
@@ -157,7 +157,7 @@ def handle_keys(game_object: Snake):
 
 
 def main():
-    """Главный цикл игры."""
+    'Главный цикл игры.'
     snake = Snake()
     apple = Apple(snake.positions)
 
