@@ -1,10 +1,12 @@
+import os
 import random
 import sys
 from typing import List, Optional, Tuple
-import os
-os.environ['SDL_VIDEODRIVER'] = 'dummy'
 
 import pygame
+
+# Настройка для тестов
+os.environ['SDL_VIDEODRIVER'] = 'dummy'
 
 # Константы
 SCREEN_WIDTH = 640
@@ -28,6 +30,7 @@ SPEED = 10
 
 Position = Tuple[int, int]
 
+# Инициализация
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -46,7 +49,7 @@ class GameObject:
     """Базовый класс для всех игровых объектов."""
 
     def __init__(self, color: Optional[Tuple[int, int, int]] = None):
-        """Инициализирует базовые атрибуты объекта."""
+        """Инициализировать базовые атрибуты объекта."""
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.body_color = color if color else DEFAULT_COLOR
 
@@ -55,7 +58,7 @@ class GameObject:
         pass
 
     def draw_cell(self, position: Position, color: Optional[tuple] = None):
-        """Отрисовывает одну ячейку на игровом поле."""
+        """Отрисовать одну ячейку на игровом поле."""
         rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, color or self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -65,12 +68,12 @@ class Apple(GameObject):
     """Класс, описывающий яблоко и его поведение."""
 
     def __init__(self, occupied_slots: Optional[List[Position]] = None):
-        """Инициализирует яблоко в случайном месте."""
+        """Инициализировать яблоко в случайном месте."""
         super().__init__(APPLE_COLOR)
         self.randomize_position(occupied_slots or [self.position])
 
     def randomize_position(self, occupied_slots: List[Position]):
-        """Устанавливает случайное положение яблока на свободном месте."""
+        """Установить случайное положение яблока на свободном месте."""
         while True:
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
@@ -80,7 +83,7 @@ class Apple(GameObject):
                 break
 
     def draw(self):
-        """Отрисовывает яблоко на экране."""
+        """Отрисовать яблоко на экране."""
         self.draw_cell(self.position)
 
 
@@ -88,12 +91,12 @@ class Snake(GameObject):
     """Класс, описывающий змейку и её механику."""
 
     def __init__(self):
-        """Инициализирует начальное состояние змейки."""
+        """Инициализировать начальное состояние змейки."""
         super().__init__(SNAKE_COLOR)
         self.reset()
 
     def reset(self):
-        """Сбрасывает змейку в начальное состояние."""
+        """Сбросить змейку в начальное состояние."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = RIGHT
@@ -101,17 +104,17 @@ class Snake(GameObject):
         self.last = None
 
     def get_head_position(self) -> Position:
-        """Возвращает позицию головы змейки."""
+        """Возвратить позицию головы змейки."""
         return self.positions[0]
 
     def update_direction(self):
-        """Обновляет направление движения змейки."""
+        """Обновить направление движения змейки."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
-        """Обновляет позицию змейки, добавляя новую голову."""
+        """Обновить позицию змейки, добавляя новую голову."""
         head_x, head_y = self.get_head_position()
         dx, dy = self.direction
         new_pos = (
@@ -126,7 +129,7 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self):
-        """Отрисовывает змейку, затирая последний сегмент."""
+        """Отрисовать змейку на экране."""
         for position in self.positions:
             self.draw_cell(position)
 
@@ -135,7 +138,7 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object: Snake):
-    """Обрабатывает нажатия клавиш для управления змейкой."""
+    """Обработать нажатия клавиш для управления змейкой."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
