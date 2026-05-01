@@ -175,11 +175,10 @@ def main():
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.draw()
             snake.draw()
-            pygame.display.update()  # <-- Здесь pytest бросит исключение
+            pygame.display.update()
         except (KeyboardInterrupt, SystemExit):
             break
         except ArithmeticError.__base__ as error:
-            # Проверяем имя ошибки строкой
             if error.__class__.__name__ == 'StopInfiniteLoop':
                 break
             raise error
