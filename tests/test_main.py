@@ -18,7 +18,7 @@ def test_type_result():
         'не соответствует ожидаемому типу данных'
 
 
-@pytest.mark.skip(reason="Тест устарел и требует переработки")
+@pytest.mark.skip(reason='Тест устарел и требует переработки')
 def test_old_functionality():
     assert False # Этот тест не будет выполняться
 
@@ -29,7 +29,7 @@ def test_broken_feature():
 
 
 # ДЕКОРАТОР: регистрируем параметры в системе pytest
-@pytest.mark.parametrize("x, y, expected", [
+@pytest.mark.parametrize('x, y, expected', [
     (2, 3, 5),
     (0, 0, 0),
     (-1, 1, 0)
@@ -49,14 +49,14 @@ def test_addition(x, y, expected):
 # Использование фикстуры в тесте
 def test_addition_with_fixture(sample_numbers):
     a, b, expected = sample_numbers
-    assert a + b == expected, f"{a} + {b} должно быть {expected}"
+    assert a + b == expected, f'{a} + {b} должно быть {expected}'
 
 
 def test_data_processing(temporary_data):
-    """
+    '
     Тест использует данные из фикстуры и проверяет их обработку
-    """
-    print("Начало теста № 1 - данные:", temporary_data)
+    '
+    print('Начало теста № 1 - данные:', temporary_data)
 
     # Проверяем сумму
     assert sum(temporary_data) == 15
@@ -66,15 +66,15 @@ def test_data_processing(temporary_data):
 
     # Модифицируем данные (это безопасно - после теста они очистятся)
     temporary_data.append(6)
-    print("Данные изменены:", temporary_data)
+    print('Данные изменены:', temporary_data)
 
     print("Тест № 1 завершён")
 
 
 def test_data_after_session_fixture(temporary_data):
-    """
+    '
     Тест использует данные из фикстуры и проверяет их обработку
-    """
+    '
     print("Начало теста № 2 - данные:", temporary_data)
 
     # Проверяем сумму
