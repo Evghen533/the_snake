@@ -29,7 +29,10 @@ def snake_with_length():
         snake_inst = Snake()
         snake_inst.length = length
         head_x, head_y = snake_inst.get_head_position()
-        snake_inst.positions = [(head_x - i * 20, head_y) for i in range(length)]
+        # Исправлена длина строки (E501)
+        snake_inst.positions = [
+            (head_x - i * 20, head_y) for i in range(length)
+        ]
         return snake_inst
     return _create_snake
 
@@ -56,5 +59,4 @@ def clean_snake():
     """Змейка, которая сбрасывается после каждого теста."""
     snake_inst = Snake()
     yield snake_inst
-    # Дополнительная очистка
     snake_inst.reset()
