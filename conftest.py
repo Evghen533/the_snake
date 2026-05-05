@@ -1,5 +1,7 @@
 import pytest
+
 from the_snake import GameObject, Snake, Apple
+
 
 
 @pytest.fixture
@@ -8,15 +10,21 @@ def the_snake_module():
     import the_snake
     return the_snake
 
+
+
 @pytest.fixture
 def game_object():
     """Создаёт GameObject с корректными параметрами."""
     return GameObject(position=(0, 0), body_color=(255, 255, 255))
 
+
+
 @pytest.fixture
 def snake():
     """Создаёт экземпляр змейки с начальными параметрами."""
     return Snake()
+
+
 
 @pytest.fixture
 def snake_with_length():
@@ -29,6 +37,8 @@ def snake_with_length():
         return snake
     return _create_snake
 
+
+
 @pytest.fixture
 def apple():
     """Фабрика для создания яблока с возможностью задать позицию."""
@@ -39,12 +49,16 @@ def apple():
         return apple
     return _create_apple
 
+
+
 @pytest.fixture
 def sample_numbers():
     """Набор тестовых чисел для параметризованных тестов."""
     return (5, 10, 15)
 
-@pytest.fixture(scope="function")
+
+
+@pytest.fixture(scope='function')
 def clean_snake():
     """Змейка, которая сбрасывается после каждого теста."""
     snake = Snake()
