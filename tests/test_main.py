@@ -45,7 +45,6 @@ def test_addition(x, y, expected):
 def test_addition_with_fixture(sample_numbers):
     """Тест с использованием фикстуры sample_numbers."""
     a, b, expected = sample_numbers
-    # Исправлено: 5 + 10 == 15 (соответствует sample_numbers из conftest.py)
     assert a + b == expected, f'{a} + {b} должно быть {expected}'
 
 
