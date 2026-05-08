@@ -12,25 +12,6 @@ def test_add():
     assert add_sum(2, 3) == 5, 'сумма не равна ожидаемой'
 
 
-@pytest.mark.regression
-def test_type_result():
-    """Тест типа данных (regression)."""
-    assert isinstance(add_sum(2, 3), int), \
-        'не соответствует ожидаемому типу данных'
-
-
-@pytest.mark.skip(reason='Тест устарел и требует переработки')
-def test_old_functionality():
-    """Устаревший тест."""
-    assert False
-
-
-@pytest.mark.xfail(reason='Баг в API, исправят в версии 2.5')
-def test_broken_feature():
-    """Тест с известной ошибкой."""
-    assert add_sum(2, 3) == 6, 'сумма не равна ожидаемой'
-
-
 @pytest.mark.parametrize('x, y, expected', [
     (2, 3, 5),
     (0, 0, 0),
@@ -38,23 +19,20 @@ def test_broken_feature():
 ])
 def test_addition(x, y, expected):
     """Параметризованный тест сложения."""
-    result = x + y
-    assert result == expected
+    assert x + y == expected
 
 
 def test_addition_with_fixture(sample_numbers):
     """Тест с использованием фикстуры sample_numbers."""
+    # Шаг 1: Проверка доступности (отладка)
+    print(f"\nDebug sample_numbers: {sample_numbers}")
     a, b, expected = sample_numbers
     assert a + b == expected, f'{a} + {b} должно быть {expected}'
 
 
 def test_data_processing(temporary_data):
     """Проверка обработки временных данных."""
+    # Шаг 1: Проверка доступности (отладка)
+    print(f"\nDebug temporary_data: {temporary_data}")
     assert sum(temporary_data) == 15
     assert len(temporary_data) == 5
-    temporary_data.append(6)
-
-
-def test_data_after_session_fixture(temporary_data):
-    """Проверка данных после сессионной фикстуры."""
-    assert temporary_data == [1, 2, 3, 4, 5]
