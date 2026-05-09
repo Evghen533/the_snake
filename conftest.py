@@ -1,29 +1,42 @@
 import pytest
 
+import the_snake
+from the_snake import Apple, GameObject, Snake
 
-pytest_plugins = [
-    'fixtures.fixtures_offers_data',
-]
+
+@pytest.fixture
+def _the_snake():
+    '''Предоставляет доступ к модулю the_snake.'''
+    return the_snake
+
+
+@pytest.fixture
+def game_object():
+    '''Создаёт экземпляр GameObject.'''
+    return GameObject()
+
+
+@pytest.fixture
+def snake():
+    '''Создаёт экземпляр Snake.'''
+    return Snake()
+
+
+@pytest.fixture
+def apple():
+    '''Создаёт экземпляр Apple.'''
+    return Apple()
 
 
 @pytest.fixture
 def sample_numbers():
-    """Возвращает кортеж с числами для тестирования"""
+    '''Набор тестовых чисел.'''
     return (5, 10, 15)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def temporary_data():
-    """
-    Фикстура с полным циклом: подготовка -> передача -> очистка
-    """
-    # ПОДГОТОВКА - выполняется ДО теста
+    '''Временные данные с очисткой после теста.'''
     data = [1, 2, 3, 4, 5]
-    print("Данные подготовлены:", data)
-
-    # ПЕРЕДАЧА данных тесту
     yield data
-
-    # ОЧИСТКА - выполняется ПОСЛЕ теста
-    data.clear()  # данный метод очищает наш список
-    print(f"{data} - пусто, данные очищены!")
+    data.clear()
