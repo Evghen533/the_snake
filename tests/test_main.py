@@ -24,15 +24,11 @@ def test_addition(x, y, expected):
 
 def test_addition_with_fixture(sample_numbers):
     """Тест с использованием фикстуры sample_numbers."""
-    # Шаг 1: Проверка доступности (отладка)
-    print(f"\nDebug sample_numbers: {sample_numbers}")
     a, b, expected = sample_numbers
     assert a + b == expected, f'{a} + {b} должно быть {expected}'
 
 
 def test_data_processing(temporary_data):
     """Проверка обработки временных данных."""
-    # Шаг 1: Проверка доступности (отладка)
-    print(f"\nDebug temporary_data: {temporary_data}")
     assert sum(temporary_data) == 15
     assert len(temporary_data) == 5
