@@ -1,5 +1,4 @@
 import pytest
-
 import the_snake
 from the_snake import Apple, GameObject, Snake
 
