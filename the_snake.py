@@ -31,7 +31,7 @@ class GameObject:
 
     def __init__(self, body_color: tuple = DEFAULT_COLOR) -> None:
         """Инициализация базовых атрибутов объекта."""
-        self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
+        self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.body_color = body_color
 
     def draw(self) -> None:
