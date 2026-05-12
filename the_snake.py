@@ -1,4 +1,5 @@
 from random import randint
+from typing import List, Optional, Tuple
 
 import pygame
 
@@ -42,12 +43,12 @@ class GameObject:
 class Apple(GameObject):
     """Класс, описывающий яблоко."""
 
-    def __init__(self, occupied_slots: list = None) -> None:
+    def __init__(self, occupied_slots: Optional[List[tuple]] = None) -> None:
         """Инициализация яблока со случайной позицией."""
         super().__init__(APPLE_COLOR)
         self.randomize_position(occupied_slots or [])
 
-    def randomize_position(self, occupied_slots: list) -> None:
+    def randomize_position(self, occupied_slots: List[tuple]) -> None:
         """Устанавливает случайную позицию яблока на свободном месте."""
         while True:
             self.position = (
