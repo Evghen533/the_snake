@@ -1,5 +1,9 @@
 import pytest
 
+@pytest.fixture
+def temporary_data():
+    return [1, 2, 3, 4, 5]
+
 
 def add_sum(a, b):
     """Возвращает сумму двух чисел."""
@@ -34,7 +38,9 @@ def test_broken_feature():
 @pytest.mark.parametrize('x, y, expected', [
     (2, 3, 5),
     (0, 0, 0),
-    (-1, 1, 0)
+    (-1, 1, 0),
+    (1000, -500, 500),  # Большие числа
+    (2.5, 1.5, 4.0)   # Дробные числа
 ])
 def test_addition(x, y, expected):
     """Параметризованный тест сложения."""
@@ -43,10 +49,10 @@ def test_addition(x, y, expected):
 
 
 def test_data_processing(temporary_data):
-    """Тест проверяет обработку данных из фикстуры."""
-    assert sum(temporary_data) == 15
-    assert len(temporary_data) == 5
-    temporary_data.append(6)
+    data_copy = temporary_data.copy()  # Создаём копию
+    assert sum(data_copy) == 15
+    assert len(data_copy) == 5
+    data_copy.append(6)  # Модифицируем копию
 
 
 def test_data_after_session_fixture(temporary_data):
