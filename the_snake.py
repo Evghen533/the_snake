@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 from typing import List, Optional
 
 import pygame
@@ -49,10 +49,14 @@ class Apple(GameObject):
         self.randomize_position(occupied_slots or [])
 
     def randomize_position(self, occupied_slots: List[tuple]) -> None:
-        all_positions_count = GRID_WIDTH * GRID_HEIGHT
-        if len(occupied_slots) >= all_positions_count:
-            raise RuntimeError("Игровое поле полностью занято!")
-
+        """Устанавливает случайную позицию яблока на свободном месте."""
+        while True:
+            self.position = (
+                choice(range(GRID_WIDTH)) * GRID_SIZE,
+                choice(range(GRID_HEIGHT)) * GRID_SIZE
+            )
+            if self.position not in occupied_slots:
+                break
 
     def draw(self) -> None:
         """Отрисовка яблока на экране."""
