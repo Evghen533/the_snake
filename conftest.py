@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from the_snake import Apple, GameObject, Snake
+from the_snake import Apple, Snake
 
 
 @pytest.fixture(autouse=True)
