@@ -1,45 +1,41 @@
+from unittest.mock import MagicMock
+
 import pytest
+
 from the_snake import Apple, GameObject, Snake
 
 
-@pytest.fixture(scope="session")
-def game_module():
-    """Предоставляет безопасный доступ к модулю игры без запуска цикла."""
-    import the_snake
-    return the_snake
-
-
-@pytest.fixture
-def game_object():
-    """Создаёт базовый игровой объект с дефолтными координатами (0, 0)."""
-    # Если конструктор требует позицию, передаем её (например, центр экрана)
-    return GameObject(position=(0, 0))
+@pytest.fixture(autouse=True)
+def mock_pygame(monkeypatch):
+    """Изолирует тесты от реального графического интерфейса pygame."""
+    mock_display = MagicMock()
+    monkeypatch.setattr('pygame.display.set_mode', mock_display)
+    monkeypatch.setattr('pygame.display.set_caption', MagicMock())
+    monkeypatch.setattr('pygame.display.update', MagicMock())
+    monkeypatch.setattr('pygame.draw.rect', MagicMock())
+    monkeypatch.setattr('pygame.init', MagicMock())
+    return mock_display
 
 
 @pytest.fixture
 def snake():
-    """Создаёт экземпляр Змейки в начальной позиции."""
+    """Создаёт чистый экземпляр Snake для каждого теста."""
     return Snake()
 
 
 @pytest.fixture
-def apple(game_object):
-    """Создаёт Яблоко с гарантированным пересечением или без него."""
-    return Apple()
+def apple(snake):
+    """Создаёт экземпляр Apple, учитывая занятые змейкой координаты."""
+    return Apple(occupied_slots=snake.positions)
 
 
 @pytest.fixture
-def sample_coordinates():
-    """Набор тестовых координат (x, y) для проверки сетки."""
-    return [(0, 0), (20, 20), (40, 80)]
+def sample_numbers():
+    """Набор тестовых чисел."""
+    return (5, 10, 15)
 
 
 @pytest.fixture
-def temporary_game_state():
-    """Фикстура для изоляции состояния игры. 
-    
-    Сбрасывает изменения после каждого теста.
-    """
-    state = {"score": 0, "speed": 10, "game_over": False}
-    yield state
-    state.clear()
+def temporary_data():
+    """Возвращает изолированный список."""
+    return []
