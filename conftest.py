@@ -2,6 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
+import the_snake
 from the_snake import Apple, Snake
 
 
@@ -15,6 +16,12 @@ def mock_pygame(monkeypatch):
     monkeypatch.setattr('pygame.draw.rect', MagicMock())
     monkeypatch.setattr('pygame.init', MagicMock())
     return mock_display
+
+
+@pytest.fixture
+def _the_snake():
+    """Предоставляет доступ к самому модулю игры для структурных тестов."""
+    return the_snake
 
 
 @pytest.fixture
@@ -35,7 +42,7 @@ def sample_numbers():
     return (5, 10, 15)
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture
 def temporary_data():
-    """Возвращает список данных, общий для всей тестовой сессии."""
+    """Возвращает изолированный список данных для каждого теста."""
     return [1, 2, 3, 4, 5]
