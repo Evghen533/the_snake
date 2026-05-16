@@ -42,7 +42,7 @@ def sample_numbers():
     return (5, 10, 15)
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def temporary_data():
-    """Возвращает изолированный список данных для каждого теста."""
+    """Возвращает список данных, общий для всей тестовой сессии."""
     return [1, 2, 3, 4, 5]
