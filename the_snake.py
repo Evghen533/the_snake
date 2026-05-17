@@ -68,7 +68,10 @@ class Apple(GameObject):
     def __init__(self, occupied_slots: Optional[List[Position]] = None) -> None:
         """Инициализирует яблоко в случайном месте."""
         super().__init__(APPLE_COLOR)
-        self.randomize_position(occupied_slots or [self.position])
+        # Ошибка E501 исправлена здесь: аргумент перенесен на новую строку
+        self.randomize_position(
+            occupied_slots or [self.position]
+        )
 
     def randomize_position(self, occupied_slots: List[Position]) -> None:
         """Устанавливает случайное положение яблока на свободном месте."""
