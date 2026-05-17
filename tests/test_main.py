@@ -16,3 +16,8 @@ def test_add():
 def test_type_result():
     assert isinstance(add_sum(2, 3), int), \
         'не соответствует ожидаемому типу данных'
+
+
+@pytest.mark.skip(reason="Тест устарел и требует переработки")
+def test_old_functionality():
+    assert False  # Этот тест не будет выполняться
