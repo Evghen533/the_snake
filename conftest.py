@@ -34,15 +34,3 @@ def snake():
 def apple(snake):
     """Создаёт экземпляр Apple, учитывая занятые змейкой координаты."""
     return Apple(occupied_slots=snake.positions)
-
-
-@pytest.fixture
-def sample_numbers():
-    """Набор тестовых чисел."""
-    return (5, 10, 15)
-
-
-@pytest.fixture(scope='session')
-def temporary_data():
-    """Возвращает список данных, общий для всей тестовой сессии."""
-    return
