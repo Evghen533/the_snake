@@ -97,7 +97,7 @@ class Snake(GameObject):
         self.reset()
 
     def reset(self) -> None:
-        """Сбрасывает змейку в начальное состояние."""
+        """Сброс состояния змейки."""
         self.length: int = 1
         self.positions: List[Position] = [
             (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -175,9 +175,9 @@ def main() -> None:
             apple.randomize_position(snake.positions)
 
         if snake.get_head_position() in snake.positions[1:]:
+            screen.fill(BOARD_BACKGROUND_COLOR)
             snake.reset()
             apple.randomize_position(snake.positions)
-            screen.fill(BOARD_BACKGROUND_COLOR)
 
         apple.draw()
         snake.draw()
