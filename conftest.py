@@ -31,6 +31,6 @@ def snake():
 
 
 @pytest.fixture
-def apple(snake):
-    """Создаёт экземпляр Apple, учитывая занятые змейкой координаты."""
-    return Apple(occupied_slots=snake.positions)
+def apple():
+    """Создаёт экземпляр Apple с дефолтными свободными слотами."""
+    return Apple()
