@@ -15,8 +15,9 @@ def test_add():
 @pytest.mark.regression
 def test_type_result():
     """Тест типа данных (regression)."""
-    assert isinstance(add_sum(2, 3), int), \
-        'не соответствует ожидаемому типу данных'
+    assert isinstance(
+        add_sum(2, 3), int
+    ), 'не соответствует ожидаемому типу данных'
 
 
 @pytest.mark.skip(reason='Тест устарел и требует переработки')
