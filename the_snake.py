@@ -51,16 +51,6 @@ class GameObject:
         """Абстрактный метод для отрисовки объекта."""
         pass
 
-    def draw_cell(
-        self,
-        position: Position,
-        color: Optional[Color] = None
-    ) -> None:
-        """Отрисовывает одну ячейку на игровом поле."""
-        rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, color or self.body_color, rect)
-        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
-
 
 class Apple(GameObject):
     """Класс, описывающий яблоко и его поведение."""
@@ -85,7 +75,9 @@ class Apple(GameObject):
 
     def draw(self) -> None:
         """Отрисовывает яблоко на экране."""
-        self.draw_cell(self.position)
+        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
+        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
 class Snake(GameObject):
@@ -134,10 +126,13 @@ class Snake(GameObject):
     def draw(self) -> None:
         """Отрисовывает змейку, затирая последний сегмент."""
         for position in self.positions:
-            self.draw_cell(position)
+            rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
+            pygame.draw.rect(screen, self.body_color, rect)
+            pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
         if self.last:
-            self.draw_cell(self.last, color=BOARD_BACKGROUND_COLOR)
+            last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
+            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
 
 def handle_keys(game_object: Snake) -> None:
