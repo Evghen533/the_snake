@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import pytest
 
 import the_snake
-from the_snake import Apple, Snake
+from the_snake import Apple, GameObject, Snake
 
 
 @pytest.fixture(autouse=True)
@@ -22,6 +22,12 @@ def mock_pygame(monkeypatch):
 def _the_snake():
     """Предоставляет доступ к самому модулю игры для структурных тестов."""
     return the_snake
+
+
+@pytest.fixture
+def game_object():
+    """Создаёт базовый экземпляр GameObject для тестов структуры."""
+    return GameObject()
 
 
 @pytest.fixture
