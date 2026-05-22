@@ -40,3 +40,15 @@ def snake():
 def apple():
     """Создаёт экземпляр Apple с дефолтными свободными слотами."""
     return Apple()
+
+
+@pytest.fixture
+def sample_numbers():
+    """Набор тестовых чисел для математических тестов."""
+    return (5, 10, 15)
+
+
+@pytest.fixture(scope='session')
+def temporary_data():
+    """Возвращает список данных, общий для всей тестовой сессии."""
+    return [1, 2, 3, 4, 5]
