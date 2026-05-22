@@ -44,3 +44,15 @@ def test_addition(x, y, expected):
     """Параметризованный тест сложения."""
     result = add_sum(x, y)
     assert result == expected
+
+
+def test_sample_numbers(sample_numbers):
+    """Тест проверяет работу фикстуры sample_numbers."""
+    assert sum(sample_numbers) == 30
+    assert len(sample_numbers) == 3
+
+
+def test_temporary_data(temporary_data):
+    """Тест проверяет работу фикстуры temporary_data."""
+    assert isinstance(temporary_data, list)
+    assert temporary_data == [1, 2, 3, 4, 5]
