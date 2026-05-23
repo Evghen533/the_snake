@@ -66,6 +66,7 @@ class Apple(GameObject):
     def randomize_position(self, occupied_slots: List[Position]) -> None:
         """Устанавливает случайное положение яблока на свободном месте."""
         while True:
+            # Разбили длинные строки по PEP 8 с помощью скобок
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
@@ -158,6 +159,9 @@ def main() -> None:
 
     snake = Snake()
     apple = Apple(snake.positions)
+
+    # Вынесли очистку экрана наверх для предотвращения артефактов
+    screen.fill(BOARD_BACKGROUND_COLOR)
 
     while True:
         clock.tick(SPEED)
