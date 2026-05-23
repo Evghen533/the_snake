@@ -46,13 +46,14 @@ def test_addition(x, y, expected):
     assert result == expected
 
 
-def test_sample_numbers(sample_numbers):
-    """Тест проверяет работу фикстуры sample_numbers."""
-    assert sum(sample_numbers) == 30
-    assert len(sample_numbers) == 3
+def test_data_processing(temporary_data):
+    """Тест проверяет обработку данных из фикстуры."""
+    data_copy = temporary_data.copy()
+    assert sum(data_copy) == 15
+    assert len(data_copy) == 5
+    data_copy.append(6)
 
 
-def test_temporary_data(temporary_data):
-    """Тест проверяет работу фикстуры temporary_data."""
-    assert isinstance(temporary_data, list)
+def test_data_after_session_fixture(temporary_data):
+    """Проверка данных после использования в другом тесте."""
     assert temporary_data == [1, 2, 3, 4, 5]
