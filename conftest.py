@@ -1,10 +1,22 @@
-fimport pytest
+from unittest.mock import MagicMock
+
+import pytest
+
+import the_snake
+from the_snake import Apple, GameObject, Snake
 
 
-@pytest.fixture
-def sample_numbers():
-    """Возвращает кортеж с числами для тестирования"""
-    return (5, 10, 15)
+@pytest.fixture(autouse=True)
+def mock_pygame(monkeypatch):
+    """Изолирует тесты от реального графического интерфейса pygame."""
+    mock_display = MagicMock()
+    monkeypatch.setattr('pygame.display.set_mode', mock_display)
+    monkeypatch.setattr('pygame.display.set_caption', MagicMock())
+    monkeypatch.setattr('pygame.display.update', MagicMock())
+    monkeypatch.setattr('pygame.draw.rect', MagicMock())
+    monkeypatch.setattr('pygame.init', MagicMock())
+    return mock_display
+
 
 @pytest.fixture
 def _the_snake():
@@ -32,11 +44,11 @@ def apple():
 
 @pytest.fixture
 def sample_numbers():
-    """Набор тестовых чисел для математических тестов."""
+    """Возвращает кортеж с числами для тестирования."""
     return (5, 10, 15)
 
 
 @pytest.fixture
 def temporary_data():
-    """Возвращает список данных, изолированный для каждого теста."""
+    """Возвращает изолированный список данных для каждого теста."""
     return [1, 2, 3, 4, 5]
