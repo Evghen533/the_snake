@@ -64,9 +64,8 @@ class Apple(GameObject):
         self.randomize_position(occupied_slots or [self.position])
 
     def randomize_position(self, occupied_slots: List[Position]) -> None:
-        """Устанавливает случайное положение яблока на свободном месте."""
+        """Устанавливает случайное положение яблока на поле."""
         while True:
-            # Разбили длинные строки по PEP 8 с помощью скобок
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
@@ -104,7 +103,7 @@ class Snake(GameObject):
         return self.positions[0]
 
     def update_direction(self) -> None:
-        """Обновляет направление движения змейки."""
+        """Обновляет direction на значение next_direction."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
@@ -160,7 +159,6 @@ def main() -> None:
     snake = Snake()
     apple = Apple(snake.positions)
 
-    # Вынесли очистку экрана наверх для предотвращения артефактов
     screen.fill(BOARD_BACKGROUND_COLOR)
 
     while True:
