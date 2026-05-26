@@ -144,12 +144,16 @@ def handle_keys(game_object: Snake) -> None:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
+                break
             elif event.key == pygame.K_DOWN and game_object.direction != UP:
                 game_object.next_direction = DOWN
+                break
             elif event.key == pygame.K_LEFT and game_object.direction != RIGHT:
                 game_object.next_direction = LEFT
+                break
             elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
                 game_object.next_direction = RIGHT
+                break
 
 
 def main() -> None:
