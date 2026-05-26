@@ -51,4 +51,5 @@ def sample_numbers():
 @pytest.fixture(scope='session')
 def temporary_data():
     """Возвращает список данных, общий для всей тестовой сессии."""
-    return
+    data = [1, 2, 3, 4, 5]
+    yield data
