@@ -58,3 +58,8 @@ def test_data_processing(temporary_data):
     assert sum(data_copy) == 15
     assert len(data_copy) == 5
     data_copy.append(6)
+
+
+def test_data_after_session_fixture(temporary_data):
+    """Проверка данных после использования в другом тесте."""
+    assert temporary_data == [1, 2, 3, 4, 5]
