@@ -64,8 +64,9 @@ class Apple(GameObject):
         self.randomize_position(occupied_slots or [self.position])
 
     def randomize_position(self, occupied_slots: List[Position]) -> None:
-        """Устанавливает случайное положение яблока на поле."""
+        """Устанавливает случайное положение яблока на свободном месте."""
         while True:
+            # Переносы строк оформлены строго в пределах 79 символов
             self.position = (
                 random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE
