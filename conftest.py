@@ -1,17 +1,35 @@
+import os
+import sys
+import pygame
 import pytest
 
-
-@pytest.fixture
-def sample_numbers():
-    """Возвращает кортеж из двух чисел и их суммы для теста сложения."""
-    return 2, 3, 5
+# Гарантируем, что корень репозитория находится в sys.path.
+# Это избавит от ошибок "ModuleNotFoundError" при импортах в тестах.
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-@pytest.fixture(scope='session')
-def temporary_data():
-    """Возвращает список чисел.
-
-    Использует область видимости 'session', чтобы список был общим
-    для всех тестов в рамках одного запуска.
+@pytest.fixture(scope="session", autouse=True)
+def init_virtual_pygame():
+    """Автоматически инициализирует виртуальный дисплей Pygame.
+    
+    Действует на протяжении всей сессии тестов. Позволяет запускать
+    тесты на серверах проверки (CI/CD) без графической оболочки.
     """
-    return [1, 2, 3, 4, 5]
+    pygame.init()
+    pygame.display.set_mode((1, 1), pygame.NOFRAME)
+    yield
+    pygame.quit()
+
+
+def pytest_configure(config):
+    """Регистрирует кастомные маркеры проекта.
+    
+    Убирает предупреждения (warnings) в консоли при использовании 
+    маркеров @pytest.mark.smoke и @pytest.mark.regression.
+    """
+    config.addinivalue_line(
+        "markers", "smoke: быстрые тесты критического функционала"
+    )
+    config.addinivalue_line(
+        "markers", "regression: тесты регрессии"
+    )
