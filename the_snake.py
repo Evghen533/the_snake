@@ -100,7 +100,7 @@ class Snake(GameObject):
 
     def get_head_position(self) -> Position:
         """Возвращает позицию головы змейки."""
-        return self.positions
+        return self.positions[0]
 
     def update_direction(self) -> None:
         """Обновляет direction на значение next_direction."""
