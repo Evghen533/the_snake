@@ -1,35 +1,55 @@
-import os
-import sys
-import pygame
+from unittest.mock import MagicMock
+
 import pytest
 
-# Гарантируем, что корень репозитория находится в sys.path.
-# Это избавит от ошибок "ModuleNotFoundError" при импортах в тестах.
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+import the_snake
+from the_snake import Apple, GameObject, Snake
 
 
-@pytest.fixture(scope="session", autouse=True)
-def init_virtual_pygame():
-    """Автоматически инициализирует виртуальный дисплей Pygame.
-    
-    Действует на протяжении всей сессии тестов. Позволяет запускать
-    тесты на серверах проверки (CI/CD) без графической оболочки.
-    """
-    pygame.init()
-    pygame.display.set_mode((1, 1), pygame.NOFRAME)
-    yield
-    pygame.quit()
+@pytest.fixture(autouse=True)
+def mock_pygame(monkeypatch):
+    """Изолирует тесты от реального графического интерфейса pygame."""
+    mock_display = MagicMock()
+    monkeypatch.setattr('pygame.display.set_mode', mock_display)
+    monkeypatch.setattr('pygame.display.set_caption', MagicMock())
+    monkeypatch.setattr('pygame.display.update', MagicMock())
+    monkeypatch.setattr('pygame.draw.rect', MagicMock())
+    monkeypatch.setattr('pygame.init', MagicMock())
+    return mock_display
 
 
-def pytest_configure(config):
-    """Регистрирует кастомные маркеры проекта.
-    
-    Убирает предупреждения (warnings) в консоли при использовании 
-    маркеров @pytest.mark.smoke и @pytest.mark.regression.
-    """
-    config.addinivalue_line(
-        "markers", "smoke: быстрые тесты критического функционала"
-    )
-    config.addinivalue_line(
-        "markers", "regression: тесты регрессии"
-    )
+@pytest.fixture
+def _the_snake():
+    """Предоставляет доступ к самому модулю игры для структурных тестов."""
+    return the_snake
+
+
+@pytest.fixture
+def game_object():
+    """Создаёт базовый экземпляр GameObject для тестов структуры."""
+    return GameObject()
+
+
+@pytest.fixture
+def snake():
+    """Создаёт чистый экземпляр Snake для каждого теста."""
+    return Snake()
+
+
+@pytest.fixture
+def apple():
+    """Создаёт экземпляр Apple с дефолтными свободными слотами."""
+    return Apple()
+
+
+@pytest.fixture
+def sample_numbers():
+    """Набор тестовых чисел для математических тестов."""
+    return (5, 10, 15)
+
+
+@pytest.fixture(scope='session')
+def temporary_data():
+    """Возвращает список данных, общий для всей тестовой сессии."""
+    data = [1, 2, 3, 4, 5]
+    yield data
