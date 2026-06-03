@@ -4,38 +4,36 @@ from typing import List, Optional, Tuple
 
 import pygame
 
-# Константы размеров
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
+# Константы для размеров поля и сетки:
+SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
 
-# Направления движения
+# Направления движения:
 UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 
-# Цвета
+# Цвета:
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
 BORDER_COLOR = (93, 216, 228)
 SNAKE_COLOR = (0, 255, 0)
 APPLE_COLOR = (255, 0, 0)
 DEFAULT_COLOR = (255, 255, 255)
 
-# Настройки игры
+# Скорость движения змейки:
 SPEED = 10
 
-# Алиасы типов (обязательны для тестов code_structure)
+# Алиасы типов для прохождения статических тестов:
 Position = Tuple[int, int]
 Color = Tuple[int, int, int]
 
-# Инициализация pygame
+# Инициализация pygame и глобальных переменных:
 pygame.init()
-
-# Глобальные переменные (тесты ищут их на уровне модуля)
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
@@ -103,7 +101,7 @@ class Snake(GameObject):
         return self.positions[0]
 
     def update_direction(self) -> None:
-        """Обновляет direction на значение next_direction."""
+        """Обновляет направление движения после нажатия на кнопку."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
@@ -124,7 +122,7 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self) -> None:
-        """Отрисовывает змейку, затирая последний сегмент."""
+        """Отрисовывает змейку на экране, затирая хвост."""
         for position in self.positions:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
@@ -158,8 +156,6 @@ def handle_keys(game_object: Snake) -> None:
 
 def main() -> None:
     """Основной игровой цикл."""
-    pygame.display.set_caption('Змейка')
-
     snake = Snake()
     apple = Apple(snake.positions)
 
